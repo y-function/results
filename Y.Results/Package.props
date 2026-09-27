@@ -1,0 +1,25 @@
+<Project>
+  
+  <PropertyGroup Label="Versions">
+    <IsPackable>true</IsPackable>
+    
+    <BaseVersion>$(MasterVersion.Split(`-`)[0])</BaseVersion>
+
+    <Version>$(MasterVersion)</Version>
+    <PackageVersion>$(MasterVersion)</PackageVersion>
+    <AssemblyVersion>$(BaseVersion)</AssemblyVersion>
+    <AssemblyFileVersion>$(MasterVersion)</AssemblyFileVersion>
+    <AssemblyInformationalVersion>$(MasterVersion)</AssemblyInformationalVersion>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="$(IsPackable)">
+    <Exec Command="powershell.exe -File ..\..\generate-nuget-config.ps1 -projectName $(MSBuildProjectName) -gitlabRepoId 60779408" Condition="$(os) == 'Windows_NT'"/>
+    <Exec Command="pwsh -File ../../generate-nuget-config.ps1 -projectName $(MSBuildProjectName) -gitlabRepoId 60779408" Condition="$(os) != 'Windows_NT'"/>
+  </Target>
+
+  <ItemGroup>
+    <None Remove=".releaserc.json;package.json"/>
+  </ItemGroup>
+  
+</Project>

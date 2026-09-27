@@ -1,0 +1,47 @@
+<Project>
+
+  <PropertyGroup>
+    <IsTestProject Condition="$(MSBuildProjectName.EndsWith(.Tests)) OR $(MSBuildProjectName.EndsWith(.Mocks)) OR $(MSBuildProjectName.EndsWith(.UnitTests))">true</IsTestProject>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Assembly Details">
+    <Company>Y Function</Company>
+    <Authors>Y Function</Authors>
+    <Copyright>Copyright © Y Function</Copyright>
+    <ProductName>Y.Results</ProductName>
+    <Title>$(MSBuildProjectName)</Title>
+    <Description>$(MSBuildProjectName)</Description>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Features">
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Code Analysis">
+    <AnalysisMode>Default</AnalysisMode>
+    <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+  
+  <Import Project="Tests.props" Condition="'$(IsTestProject)'=='true'" />
+  
+  <ItemGroup Condition="'$(IsTestProject)'!='true'">
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>$(AssemblyName).Tests</_Parameter1> <!-- We use the value of AssemblyName to declare the value of the attribute -->
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="9.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="*.DotSettings"/>
+  </ItemGroup>
+
+</Project>
