@@ -1,0 +1,49 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  merge_group:
+    types: [checks_requested]
+    branches: [main]
+  release:
+    types: [published]
+  workflow_dispatch: 
+
+env:
+    sln_path: "./${{ vars.SLN_NAME }}"
+    ref_name: ${{ github.ref_name }}
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v6.0.0
+      with:
+        dotnet-version: 8.0.x
+    - name: Define VERSION
+      if: github.event_name == 'release'
+      run: |
+        echo "Version: " $ref_name
+        echo "VERSION=$(echo "$ref_name" | cut -c 2-)" >> $GITHUB_ENV
+    - name: Restore dependencies
+      run: dotnet restore $sln_path
+    - name: Build
+      run: dotnet build $sln_path --no-restore
+    - name: Test
+      run: dotnet test $sln_path --no-build --verbosity normal
+    - name: Pack
+      if: github.event_name == 'release'
+      run: dotnet pack /p:Version=$VERSION $sln_path --configuration Release --output ./nupkg
+    - name: Publish
+      if: github.event_name == 'release'
+      run: dotnet nuget push ./nupkg/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" --skip-duplicate
