@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace Y.Results;
+﻿namespace Y.Results;
 
 public partial class Result
 {
@@ -78,11 +75,17 @@ public partial class Result
         }
     }
     
-    public static Result<T> FromCondition<T>(T o, Func<T, bool> predicate, string? errorMessage = null)
+    public static Result<T> FromCondition<T>(T o, Func<T, bool>? predicate, Func<Exception>? onFailure = null)
     {
+        if (predicate is null)
+            return Failure<T>(new ArgumentNullException(nameof(predicate)));
+
+        Exception GetException() => 
+            onFailure?.Invoke() ?? new Exception(ConditionValidationHasFailedErrorMessage);
+        
         try
         {
-            return predicate(o) ? Success(o) : Failure<T>(new Exception(errorMessage ?? ConditionValidationHasFailedErrorMessage));
+            return predicate(o) ? Success(o) : Failure<T>(GetException());
         }
         catch (Exception e)
         {

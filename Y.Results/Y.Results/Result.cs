@@ -26,7 +26,7 @@ public partial class Result
             return false;
         }
 
-        failure = failed is Result<TOut> r ? r : Failure<TOut>(failed.Exception!);
+        failure = failed as Result<TOut> ?? Failure<TOut>(failed.Exception!);
         return true;
     }
 
