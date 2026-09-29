@@ -1,6 +1,13 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/dotCover/Editor/HighlightingSourceSnapshotLocation/@EntryValue">C:\Users\Alex\AppData\Local\JetBrains\Rider2026.2\resharper-host\temp\Rider\vAny\CoverageData\_Y.Results.-1979816779\Snapshot\snapshot.utdcvr</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=58c56b00_002Df81e_002D48fd_002Da74f_002Dc8e84271fcf4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Continuous Testing" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Solution /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=6214850b_002D66f2_002D4464_002Da998_002D13fa63896689/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="TestSuccessEmpty" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::86CC1689-C623-4CD6-A51F-F5D068C8E37D::net8.0::Y.Results.Tests.ResultCtorsTests.TestSuccessEmpty&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::86CC1689-C623-4CD6-A51F-F5D068C8E37D::net8.0::Y.Results.Tests.ResultCtorsTests.TestFailureEmpty&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::86CC1689-C623-4CD6-A51F-F5D068C8E37D::net8.0::Y.Results.Tests.ResultCtorsTests.TestSuccessWithValue&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::86CC1689-C623-4CD6-A51F-F5D068C8E37D::net8.0::Y.Results.Tests.ResultCtorsTests.TestFailureWithValue&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
