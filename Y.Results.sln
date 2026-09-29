@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Y.Results", "Y.Results\Y.Results.csproj", "{5AA4915F-7F40-4DBC-B92E-8E2CE6621C52}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Y.Results", "Y.Results\Y.Results\Y.Results.csproj", "{5AA4915F-7F40-4DBC-B92E-8E2CE6621C52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Y.Results.Tests", "Y.Results.Tests\Y.Results.Tests.csproj", "{86CC1689-C623-4CD6-A51F-F5D068C8E37D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Y.Results.Tests", "Y.Results\Y.Results.Tests\Y.Results.Tests.csproj", "{86CC1689-C623-4CD6-A51F-F5D068C8E37D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
