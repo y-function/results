@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Y.Results;
+﻿namespace Y.Results;
 
 public class Result<T> : Result
 {

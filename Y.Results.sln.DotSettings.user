@@ -4,10 +4,5 @@
   &lt;Solution /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=6214850b_002D66f2_002D4464_002Da998_002D13fa63896689/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="TestSuccessEmpty" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::86CC1689-C623-4CD6-A51F-F5D068C8E37D::net8.0::Y.Results.Tests.ResultCtorsTests.TestSuccessEmpty&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::86CC1689-C623-4CD6-A51F-F5D068C8E37D::net8.0::Y.Results.Tests.ResultCtorsTests.TestFailureEmpty&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::86CC1689-C623-4CD6-A51F-F5D068C8E37D::net8.0::Y.Results.Tests.ResultCtorsTests.TestSuccessWithValue&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::86CC1689-C623-4CD6-A51F-F5D068C8E37D::net8.0::Y.Results.Tests.ResultCtorsTests.TestFailureWithValue&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
+  &lt;Project Location="C:\Projects\Y Function\results\Y.Results\Y.Results.Tests" Presentation="&amp;lt;Y.Results.Tests&amp;gt;" /&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
