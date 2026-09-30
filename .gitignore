@@ -58,3 +58,5 @@ nunit-*.xml
 
 # Coverlet
 **/coverage.cobertura.xml
+
+Y.Results.sln.DotSettings.user
