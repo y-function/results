@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Y.Results.Extensions.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Y.Results.Classes.Extensions\Y.Results.Classes.Extensions.csproj" />
+    <ProjectReference Include="..\Y.Results.Classes\Y.Results.Classes.csproj" />
+  </ItemGroup>
+
+</Project>

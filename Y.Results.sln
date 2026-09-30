@@ -1,8 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Y.Results", "Y.Results\Y.Results\Y.Results.csproj", "{5AA4915F-7F40-4DBC-B92E-8E2CE6621C52}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Y.Results.Classes", "Y.Results\Y.Results.Classes\Y.Results.Classes.csproj", "{5AA4915F-7F40-4DBC-B92E-8E2CE6621C52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Y.Results.Tests", "Y.Results\Y.Results.Tests\Y.Results.Tests.csproj", "{86CC1689-C623-4CD6-A51F-F5D068C8E37D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Y.Results.Classes.Tests", "Y.Results\Y.Results.Classes.Tests\Y.Results.Classes.Tests.csproj", "{86CC1689-C623-4CD6-A51F-F5D068C8E37D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Y.Results.Classes.Extensions", "Y.Results\Y.Results.Classes.Extensions\Y.Results.Classes.Extensions.csproj", "{E8D16778-96B6-49CA-99FE-996A24F9EB0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Y.Results.Classes.Extensions.Tests", "Y.Results\Y.Results.Classes.Extensions.Tests\Y.Results.Classes.Extensions.Tests.csproj", "{2AAE0A08-34BF-4CAE-920C-9F0B20974D0B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Classes", "Classes", "{A18777C5-EC06-441A-9EDF-CA5AC09BB4D1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Y.Results.Structs", "Y.Results\Y.Results.Structs\Y.Results.Structs.csproj", "{10E1EBDE-6DAE-4439-8738-10C8DE357ABB}"
 EndProject
@@ -11,6 +17,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Y.Results.Structs.Tests", "Y.Results\Y.Results.Structs.Tests\Y.Results.Structs.Tests.csproj", "{EB40F3D0-FB58-46A3-8CE0-F3CC0F9E3AD6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Y.Results.Structs.Extensions.Tests", "Y.Results\Y.Results.Structs.Extensions.Tests\Y.Results.Structs.Extensions.Tests.csproj", "{570C9313-5BEE-4041-B9B5-8E7137081B91}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Structs", "Structs", "{AFCF9B4D-F9AD-44EF-BF7F-7C998C39D1C4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +34,14 @@ Global
 		{86CC1689-C623-4CD6-A51F-F5D068C8E37D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86CC1689-C623-4CD6-A51F-F5D068C8E37D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86CC1689-C623-4CD6-A51F-F5D068C8E37D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8D16778-96B6-49CA-99FE-996A24F9EB0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8D16778-96B6-49CA-99FE-996A24F9EB0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8D16778-96B6-49CA-99FE-996A24F9EB0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8D16778-96B6-49CA-99FE-996A24F9EB0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AAE0A08-34BF-4CAE-920C-9F0B20974D0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AAE0A08-34BF-4CAE-920C-9F0B20974D0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AAE0A08-34BF-4CAE-920C-9F0B20974D0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AAE0A08-34BF-4CAE-920C-9F0B20974D0B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{10E1EBDE-6DAE-4439-8738-10C8DE357ABB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{10E1EBDE-6DAE-4439-8738-10C8DE357ABB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10E1EBDE-6DAE-4439-8738-10C8DE357ABB}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -42,5 +58,15 @@ Global
 		{570C9313-5BEE-4041-B9B5-8E7137081B91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{570C9313-5BEE-4041-B9B5-8E7137081B91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{570C9313-5BEE-4041-B9B5-8E7137081B91}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5AA4915F-7F40-4DBC-B92E-8E2CE6621C52} = {A18777C5-EC06-441A-9EDF-CA5AC09BB4D1}
+		{E8D16778-96B6-49CA-99FE-996A24F9EB0A} = {A18777C5-EC06-441A-9EDF-CA5AC09BB4D1}
+		{2AAE0A08-34BF-4CAE-920C-9F0B20974D0B} = {A18777C5-EC06-441A-9EDF-CA5AC09BB4D1}
+		{86CC1689-C623-4CD6-A51F-F5D068C8E37D} = {A18777C5-EC06-441A-9EDF-CA5AC09BB4D1}
+		{10E1EBDE-6DAE-4439-8738-10C8DE357ABB} = {AFCF9B4D-F9AD-44EF-BF7F-7C998C39D1C4}
+		{AF3272AD-D228-4D43-8F4A-3A449633F45C} = {AFCF9B4D-F9AD-44EF-BF7F-7C998C39D1C4}
+		{570C9313-5BEE-4041-B9B5-8E7137081B91} = {AFCF9B4D-F9AD-44EF-BF7F-7C998C39D1C4}
+		{EB40F3D0-FB58-46A3-8CE0-F3CC0F9E3AD6} = {AFCF9B4D-F9AD-44EF-BF7F-7C998C39D1C4}
 	EndGlobalSection
 EndGlobal

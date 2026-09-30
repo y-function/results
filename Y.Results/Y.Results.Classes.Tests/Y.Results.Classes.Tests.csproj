@@ -2,10 +2,11 @@
 
   <PropertyGroup>
     <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+    <RootNamespace>Y.Results.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Y.Results\Y.Results.csproj" />
+    <ProjectReference Include="..\Y.Results.Classes\Y.Results.Classes.csproj" />
   </ItemGroup>
 
 </Project>

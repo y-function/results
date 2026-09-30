@@ -6,16 +6,25 @@ public partial class Result
 
     public static Result Success() => new(true);
 
-    public static Result<T> Success<T>(T? value) => new(true, value);
+    public static Result<T> Success<T>(T value) => new(true, value);
 
-    public static Result Failure(Exception exception) => new(false, exception);
-
-    public static Result<T> Failure<T>(Exception exception) => new(false, default, exception);
-
-    public static Result FromAction(Action? action)
+    public static Result Failure(Exception exception)
     {
-        if (action is null)
-            return Failure(new ArgumentNullException(nameof(action)));
+        ArgumentNullException.ThrowIfNull(exception);
+        return new Result(false, exception);
+    }
+
+    public static Result<T> Failure<T>(Exception exception)
+    {
+        ArgumentNullException.ThrowIfNull(exception);
+
+        return new Result<T>(false, default!, exception);
+    }
+
+    public static Result FromAction(Action action)
+    {
+        ArgumentNullException.ThrowIfNull(action);
+
         try
         {
             action();
@@ -27,10 +36,9 @@ public partial class Result
         }
     }
 
-    public static async Task<Result> FromAction(Func<Task>? action)
+    public static async Task<Result> FromAction(Func<Task> action)
     {
-        if (action is null)
-            return Failure(new ArgumentNullException(nameof(action)));
+        ArgumentNullException.ThrowIfNull(action);
 
         try
         {
@@ -43,10 +51,9 @@ public partial class Result
         }
     }
 
-    public static Result<T> FromFunction<T>(Func<T>? func)
+    public static Result<T> FromFunction<T>(Func<T> func)
     {
-        if (func is null)
-            return Failure<T>(new ArgumentNullException(nameof(func)));
+        ArgumentNullException.ThrowIfNull(func);
 
         try
         {
@@ -59,10 +66,9 @@ public partial class Result
         }
     }
 
-    public static async Task<Result<T>> FromFunction<T>(Func<Task<T>>? func)
+    public static async Task<Result<T>> FromFunction<T>(Func<Task<T>> func)
     {
-        if (func is null)
-            return Failure<T>(new ArgumentNullException(nameof(func)));
+        ArgumentNullException.ThrowIfNull(func);
 
         try
         {
@@ -75,10 +81,9 @@ public partial class Result
         }
     }
     
-    public static Result<T> FromCondition<T>(T o, Func<T, bool>? predicate, Func<Exception>? onFailure = null)
+    public static Result<T> FromCondition<T>(T o, Func<T, bool> predicate, Func<Exception>? onFailure = null)
     {
-        if (predicate is null)
-            return Failure<T>(new ArgumentNullException(nameof(predicate)));
+        ArgumentNullException.ThrowIfNull(predicate);
 
         Exception GetException() => 
             onFailure?.Invoke() ?? new Exception(ConditionValidationHasFailedErrorMessage);

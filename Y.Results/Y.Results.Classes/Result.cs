@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-
-namespace Y.Results;
+﻿namespace Y.Results;
 
 public partial class Result
 {

@@ -42,10 +42,7 @@ public partial class ResultTests
     [Test]
     public void TestFromActionNull()
     {
-        var result = Result.FromAction((Action)null!);
-        Assert.That(result.IsSuccess, Is.False);
-        Assert.That(result.Exception, Is.Not.Null);
-        Assert.That(result.Exception, Is.TypeOf<ArgumentNullException>());
+        Assert.Throws<ArgumentNullException>(() => Result.FromAction((Action)null!));
     }
 
     [Test]
@@ -71,10 +68,7 @@ public partial class ResultTests
     [Test]
     public void TestFromActionNullAsync()
     {
-        var result = Result.FromAction((Func<Task>)null!).GetAwaiter().GetResult();
-        Assert.That(result.IsSuccess, Is.False);
-        Assert.That(result.Exception, Is.Not.Null);
-        Assert.That(result.Exception, Is.TypeOf<ArgumentNullException>());
+        Assert.Throws<ArgumentNullException>(() => Result.FromAction((Func<Task>)null!).GetAwaiter().GetResult());
     }
 
     [Test]
@@ -99,10 +93,7 @@ public partial class ResultTests
     [Test]
     public void TestFromFunctionNull()
     {
-        var result = Result.FromFunction((Func<object>)null!);
-        Assert.That(result.IsSuccess, Is.False);
-        Assert.That(result.Exception, Is.Not.Null);
-        Assert.That(result.Exception, Is.TypeOf<ArgumentNullException>());
+        Assert.Throws<ArgumentNullException>(() => Result.FromFunction((Func<object>)null!));
     }
 
     [Test]
@@ -129,10 +120,7 @@ public partial class ResultTests
     [Test]
     public void TestFromFunctionNullAsync()
     {
-        var result = Result.FromFunction((Func<Task<object>>)null!).GetAwaiter().GetResult();
-        Assert.That(result.IsSuccess, Is.False);
-        Assert.That(result.Exception, Is.Not.Null);
-        Assert.That(result.Exception, Is.TypeOf<ArgumentNullException>());
+        Assert.Throws<ArgumentNullException>(() => Result.FromFunction((Func<Task<object>>)null!).GetAwaiter().GetResult());
     }
 
     [Test]
@@ -161,10 +149,7 @@ public partial class ResultTests
     [Test]
     public void TestFromConditionNull()
     {
-        var result = Result.FromCondition(new object(), null!);
-        Assert.That(result.IsSuccess, Is.False);
-        Assert.That(result.Exception, Is.Not.Null);
-        Assert.That(result.Exception, Is.TypeOf<ArgumentNullException>());
+        Assert.Throws<ArgumentNullException>(() => Result.FromCondition(new object(), null!));
     }
     
     [Test]
