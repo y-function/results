@@ -15,6 +15,7 @@
 
   <PropertyGroup Label="Features">
     <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
