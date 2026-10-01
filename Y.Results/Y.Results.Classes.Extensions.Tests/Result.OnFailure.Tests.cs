@@ -9,7 +9,7 @@ public partial class ResultExtensionsTests
     [Test]
     public void TestOnFailureNullResult()
     {
-        var result = (Result)null!;
+        Result result = null!;
         Assert.Throws<ArgumentNullException>(() => result.OnFailure(_ => {}));
     }
 
@@ -49,7 +49,7 @@ public partial class ResultExtensionsTests
     [Test]
     public void TestOnFailureTypedNullResult()
     {
-        var result = (Result<object>)null!;
+        Result<object> result = null!;
         Assert.Throws<ArgumentNullException>(() => result.OnFailure(_ => { }));
     }
 

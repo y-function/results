@@ -2,59 +2,36 @@
 
 public static partial class ResultExtensions
 {
-    public static async Task<Result> Then(this Result? result, Func<Task>? action)
+    public static async Task<Result> Then(this Result result, Func<Task> action)
     {
-        if (result is null)
-            return Result.Failure(new ArgumentNullException(nameof(result)));
-        if (!result.IsSuccess)
-            return Result.Failure(result.Exception!);
-        if (action is null)
-            return Result.Failure(new ArgumentNullException(nameof(action)));
+        ArgumentNullException.ThrowIfNull(result);
 
-        try
-        {
-            await action();
-            return Result.Success();
-        }
-        catch (Exception e)
-        {
-            return Result.Failure(e);
-        }
+        return result.IsSuccess 
+            ? await Result.FromAction(action) 
+            : result;
     }
 
-    public static async Task<Result> Then<TIn>(this Result<TIn>? result, Func<TIn, Task>? action)
+    public static async Task<Result> Then<TIn>(this Result<TIn> result, Func<TIn, Task> action)
     {
-        if (result is null)
-            return Result.Failure(new ArgumentNullException(nameof(result)));
-        if (!result.IsSuccess)
-            return Result.Failure(result.Exception!);
-        if (action is null)
-            return Result.Failure(new ArgumentNullException(nameof(action)));
+        ArgumentNullException.ThrowIfNull(result);
+        ArgumentNullException.ThrowIfNull(action);
 
-        try
-        {
-            await action(result.Value);
-            return Result.Success();
-        }
-        catch (Exception e)
-        {
-            return Result.Failure(e);
-        }
+        return result.IsSuccess 
+            ? await Result.FromAction(() => action(result.Value)) 
+            : result;
     }
 
-    public static async Task<Result<TOut>> Then<TOut>(this Result? result, Func<Task<Result<TOut>>>? action)
+    public static async Task<Result<TOut>> Then<TOut>(this Result result, Func<Task<Result<TOut>>> action)
     {
-        if (result is null)
-            return Result.Failure<TOut>(new ArgumentNullException(nameof(result)));
+        ArgumentNullException.ThrowIfNull(result);
+        ArgumentNullException.ThrowIfNull(action);
+
         if (!result.IsSuccess)
             return Result.Failure<TOut>(result.Exception!);
-        if (action is null)
-            return Result.Failure<TOut>(new ArgumentNullException(nameof(action)));
 
         try
         {
-            var actionResult = await action();
-            return actionResult;
+            return await action();
         }
         catch (Exception e)
         {
@@ -62,19 +39,17 @@ public static partial class ResultExtensions
         }
     }
 
-    public static async Task<Result> Then(this Result? result, Func<Task<Result>>? action)
+    public static async Task<Result> Then(this Result result, Func<Task<Result>> action)
     {
-        if (result is null)
-            return Result.Failure(new ArgumentNullException(nameof(result)));
+        ArgumentNullException.ThrowIfNull(result);
+        ArgumentNullException.ThrowIfNull(action);
+
         if (!result.IsSuccess)
-            return Result.Failure(result.Exception!);
-        if (action is null)
-            return Result.Failure(new ArgumentNullException(nameof(action)));
+            return result;
 
         try
         {
-            var actionResult = await action();
-            return actionResult;
+            return await action();
         }
         catch (Exception e)
         {
@@ -82,19 +57,17 @@ public static partial class ResultExtensions
         }
     }
 
-    public static async Task<Result> Then<TIn>(this Result<TIn>? result, Func<TIn?, Task<Result>>? mapper)
+    public static async Task<Result> Then<TIn>(this Result<TIn> result, Func<TIn, Task<Result>> action)
     {
-        if (result is null)
-            return Result.Failure(new ArgumentNullException(nameof(result)));
+        ArgumentNullException.ThrowIfNull(result);
+        ArgumentNullException.ThrowIfNull(action);
+
         if (!result.IsSuccess)
-            return Result.Failure(result.Exception!);
-        if (mapper is null)
-            return Result.Failure(new ArgumentNullException(nameof(mapper)));
+            return result;
 
         try
         {
-            var valueResult = await mapper(result.Value);
-            return valueResult;
+            return await action(result.Value);
         }
         catch (Exception e)
         {
@@ -102,41 +75,27 @@ public static partial class ResultExtensions
         }
     }
 
-    public static async Task<Result<TOut>> Then<TIn, TOut>(this Result<TIn>? result, Func<TIn?, Task<TOut>>? mapper)
+    public static async Task<Result<TOut>> Then<TIn, TOut>(this Result<TIn> result, Func<TIn, Task<TOut>> action)
     {
-        if (result is null)
-            return Result.Failure<TOut>(new ArgumentNullException(nameof(result)));
-        if (!result.IsSuccess)
-            return Result.Failure<TOut>(result.Exception!);
-        if (mapper is null)
-            return Result.Failure<TOut>(new ArgumentNullException(nameof(mapper)));
+        ArgumentNullException.ThrowIfNull(result);
+        ArgumentNullException.ThrowIfNull(action);
 
-        try
-        {
-            var value = await mapper(result.Value);
-            return Result.Success(value);
-        }
-        catch (Exception e)
-        {
-            return Result.Failure<TOut>(e);
-        }
+        return result.IsSuccess
+            ? await Result.FromFunction(() => action(result.Value))
+            : Result.Failure<TOut>(result.Exception!);
     }
 
-    public static async Task<Result<TOut>> Then<TIn, TOut>(
-        this Result<TIn>? result,
-        Func<TIn?, Task<Result<TOut>>>? mapper)
+    public static async Task<Result<TOut>> Then<TIn, TOut>(this Result<TIn> result, Func<TIn, Task<Result<TOut>>> action)
     {
-        if (result is null)
-            return Result.Failure<TOut>(new ArgumentNullException(nameof(result)));
+        ArgumentNullException.ThrowIfNull(result);
+        ArgumentNullException.ThrowIfNull(action);
+
         if (!result.IsSuccess)
             return Result.Failure<TOut>(result.Exception!);
-        if (mapper is null)
-            return Result.Failure<TOut>(new ArgumentNullException(nameof(mapper)));
 
         try
         {
-            var resultValue = await mapper(result.Value);
-            return resultValue;
+            return await action(result.Value);
         }
         catch (Exception e)
         {

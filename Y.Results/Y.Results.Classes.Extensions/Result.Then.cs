@@ -6,46 +6,41 @@ public static partial class ResultExtensions
     {
         ArgumentNullException.ThrowIfNull(result);
 
-        return !result.IsSuccess ? result : Result.FromAction(action);
+        return result.IsSuccess 
+            ? Result.FromAction(action) 
+            : result;
     }
 
-    public static Result<TOut> Then<TOut>(this Result? result, Func<TOut>? mapper)
+    public static Result<TOut> Then<TOut>(this Result result, Func<TOut> action)
     {
-        if (result is null)
-            return Result.Failure<TOut>(new ArgumentNullException(nameof(result)));
+        ArgumentNullException.ThrowIfNull(result);
+
+        return result.IsSuccess 
+            ? Result.FromFunction(action) 
+            : Result.Failure<TOut>(result.Exception!);
+    }
+
+    public static Result Then(this Result result, Func<Result> action)
+    {
+        ArgumentNullException.ThrowIfNull(result);
+        ArgumentNullException.ThrowIfNull(action);
+
+        return result.IsSuccess 
+            ? action() 
+            : result;
+    }
+
+    public static Result<TOut> Then<TOut>(this Result result, Func<Result<TOut>> action)
+    {
+        ArgumentNullException.ThrowIfNull(result);
+        ArgumentNullException.ThrowIfNull(action);
+
         if (!result.IsSuccess)
             return Result.Failure<TOut>(result.Exception!);
-        if (mapper is null)
-            return Result.Failure<TOut>(new ArgumentNullException(nameof(mapper)));
-
-        return Result.FromFunction(mapper);
-    }
-
-    public static Result Then(this Result? result, Func<Result>? mapper)
-    {
-        if (result is null)
-            return Result.Failure(new ArgumentNullException(nameof(result)));
-        if (!result.IsSuccess)
-            return Result.Failure(result.Exception!);
-        if (mapper is null)
-            return Result.Failure(new ArgumentNullException(nameof(mapper)));
-
-        return mapper();
-    }
-
-    public static Result<TOut> Then<TOut>(this Result? result, Func<Result<TOut>>? action)
-    {
-        if (result is null)
-            return Result.Failure<TOut>(new ArgumentNullException(nameof(result)));
-        if (!result.IsSuccess)
-            return Result.Failure<TOut>(result.Exception!);
-        if (action is null)
-            return Result.Failure<TOut>(new ArgumentNullException(nameof(action)));
 
         try
         {
-            var actionResult = action();
-            return actionResult;
+            return action();
         }
         catch (Exception e)
         {
@@ -53,19 +48,27 @@ public static partial class ResultExtensions
         }
     }
 
-    public static Result<TOut> Then<TIn, TOut>(this Result<TIn>? result, Func<TIn?, TOut>? mapper)
+    public static Result<TOut> Then<TIn, TOut>(this Result<TIn> result, Func<TIn, TOut> action)
     {
-        if (result is null)
-            return Result.Failure<TOut>(new ArgumentNullException(nameof(result)));
+        ArgumentNullException.ThrowIfNull(result);
+        ArgumentNullException.ThrowIfNull(action);
+
+        return result.IsSuccess 
+            ? Result.FromFunction(() => action(result.Value)) 
+            : Result.Failure<TOut>(result.Exception!);
+    }
+
+    public static Result<TOut> Then<TIn, TOut>(this Result<TIn> result, Func<TIn, Result<TOut>> action)
+    {
+        ArgumentNullException.ThrowIfNull(result);
+        ArgumentNullException.ThrowIfNull(action);
+
         if (!result.IsSuccess)
             return Result.Failure<TOut>(result.Exception!);
-        if (mapper is null)
-            return Result.Failure<TOut>(new ArgumentNullException(nameof(mapper)));
 
         try
         {
-            var value = mapper(result.Value);
-            return Result.Success(value);
+            return action(result.Value);
         }
         catch (Exception e)
         {
@@ -73,39 +76,17 @@ public static partial class ResultExtensions
         }
     }
 
-    public static Result<TOut> Then<TIn, TOut>(this Result<TIn>? result, Func<TIn?, Result<TOut>>? mapper)
+    public static Result Then<TIn>(this Result<TIn> result, Func<TIn, Result> action)
     {
-        if (result is null)
-            return Result.Failure<TOut>(new ArgumentNullException(nameof(result)));
+        ArgumentNullException.ThrowIfNull(result);
+        ArgumentNullException.ThrowIfNull(action);
+
         if (!result.IsSuccess)
-            return Result.Failure<TOut>(result.Exception!);
-        if (mapper is null)
-            return Result.Failure<TOut>(new ArgumentNullException(nameof(mapper)));
+            return result;
 
         try
         {
-            var valueResult = mapper(result.Value);
-            return valueResult;
-        }
-        catch (Exception e)
-        {
-            return Result.Failure<TOut>(e);
-        }
-    }
-
-    public static Result Then<TIn>(this Result<TIn>? result, Func<TIn?, Result>? mapper)
-    {
-        if (result is null)
-            return Result.Failure(new ArgumentNullException(nameof(result)));
-        if (!result.IsSuccess)
-            return Result.Failure(result.Exception!);
-        if (mapper is null)
-            return Result.Failure(new ArgumentNullException(nameof(mapper)));
-
-        try
-        {
-            var valueResult = mapper(result.Value);
-            return valueResult;
+            return action(result.Value);
         }
         catch (Exception e)
         {
