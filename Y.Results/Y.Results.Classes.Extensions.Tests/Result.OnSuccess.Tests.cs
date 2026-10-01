@@ -1,10 +1,7 @@
 namespace Y.Results.Extensions.Tests;
 
-public class ResultExtensionsTests
+public partial class ResultExtensionsTests
 {
-    [SetUp]
-    public void Setup() { }
-
     [Test]
     public void TestOnSuccessNullResult()
     {

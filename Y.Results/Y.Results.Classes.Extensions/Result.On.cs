@@ -24,6 +24,7 @@ public static partial class ResultExtensions
     public static Result<T> OnSuccess<T>(this Result<T> result, Action<T> action)
     {
         ArgumentNullException.ThrowIfNull(result);
+        ArgumentNullException.ThrowIfNull(action);
 
         if (!result.IsSuccess)
             return result;
@@ -39,6 +40,7 @@ public static partial class ResultExtensions
     public static Result OnFailure(this Result result, Action<Exception> action)
     {
         ArgumentNullException.ThrowIfNull(result);
+        ArgumentNullException.ThrowIfNull(action);
 
         if (result.IsSuccess)
             return result;
@@ -54,6 +56,7 @@ public static partial class ResultExtensions
     public static Result<T> OnFailure<T>(this Result<T>? result, Action<Exception> action)
     {
         ArgumentNullException.ThrowIfNull(result);
+        ArgumentNullException.ThrowIfNull(action);
 
         if (result.IsSuccess)
             return result;
