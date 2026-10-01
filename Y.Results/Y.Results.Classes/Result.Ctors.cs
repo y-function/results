@@ -81,6 +81,8 @@ public partial class Result
         }
     }
     
+    //TODO: Wrap(Func<Result> func) and related
+    
     public static Result<T> FromCondition<T>(T o, Func<T, bool> predicate, Func<Exception>? onFailure = null)
     {
         ArgumentNullException.ThrowIfNull(predicate);

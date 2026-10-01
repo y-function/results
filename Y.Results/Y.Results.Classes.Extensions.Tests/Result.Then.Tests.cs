@@ -124,8 +124,11 @@ public partial class ResultExtensionsTests
     public void TestThenResultFuncThrowingFuncThrows()
     {
         var input = Result.Success();
-        Assert.Throws<InvalidOperationException>(
-            () => input.Then((Func<Result>)(() => throw new InvalidOperationException())));
+        var outputException = new InvalidOperationException();
+        var output = input.Then((Func<Result>)(() => throw outputException));
+        Assert.That(output, Is.Not.SameAs(input));
+        Assert.That(output.IsSuccess, Is.False);
+        Assert.That(output.Exception, Is.SameAs(outputException));
     }
 
     [Test]

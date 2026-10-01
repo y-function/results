@@ -24,10 +24,17 @@ public static partial class ResultExtensions
     {
         ArgumentNullException.ThrowIfNull(result);
         ArgumentNullException.ThrowIfNull(action);
+        if (!result.IsSuccess)
+            return result;
 
-        return result.IsSuccess 
-            ? action() 
-            : result;
+        try
+        {
+            return action();
+        }
+        catch (Exception e)
+        {
+            return Result.Failure(e);
+        }
     }
 
     public static Result<TOut> Then<TOut>(this Result result, Func<Result<TOut>> action)
