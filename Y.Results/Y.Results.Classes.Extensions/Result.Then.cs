@@ -2,23 +2,11 @@
 
 public static partial class ResultExtensions
 {
-    public static Result Then(this Result? result, Action? action)
+    public static Result Then(this Result result, Action action)
     {
-        if (result is null)
-            return Result.Failure(new ArgumentNullException(nameof(result)));
-        if (!result.IsSuccess)
-            return Result.Failure(result.Exception!);
-        if (action is null)
-            return Result.Failure(new ArgumentNullException(nameof(action)));
-        try
-        {
-            action();
-            return Result.Success();
-        }
-        catch (Exception e)
-        {
-            return Result.Failure(e);
-        }
+        ArgumentNullException.ThrowIfNull(result);
+
+        return !result.IsSuccess ? result : Result.FromAction(action);
     }
 
     public static Result<TOut> Then<TOut>(this Result? result, Func<TOut>? mapper)
