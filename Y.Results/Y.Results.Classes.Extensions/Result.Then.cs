@@ -2,6 +2,14 @@
 
 public static partial class ResultExtensions
 {
+    public static Result Then(this Result result, Result next)
+    {
+        ArgumentNullException.ThrowIfNull(result);
+        ArgumentNullException.ThrowIfNull(next);
+        
+        return result.IsSuccess ? next : result;
+    }
+    
     public static Result Then(this Result result, Action action)
     {
         ArgumentNullException.ThrowIfNull(result);
@@ -37,6 +45,22 @@ public static partial class ResultExtensions
         }
     }
 
+    public static Result<TOut> Then<TOut>(this Result result, Result<TOut> next)
+    {
+        ArgumentNullException.ThrowIfNull(result);
+        ArgumentNullException.ThrowIfNull(next);
+
+        return result.IsSuccess ? next : Result.Failure<TOut>(result.Exception!);
+    }
+
+    public static Result<TOut> Then<TIn, TOut>(this Result<TIn> result, Result<TOut> next)
+    {
+        ArgumentNullException.ThrowIfNull(result);
+        ArgumentNullException.ThrowIfNull(next);
+
+        return result.IsSuccess ? next : result.CastFailure<TIn, TOut>();
+    }
+    
     public static Result<TOut> Then<TOut>(this Result result, Func<Result<TOut>> action)
     {
         ArgumentNullException.ThrowIfNull(result);
@@ -62,7 +86,7 @@ public static partial class ResultExtensions
 
         return result.IsSuccess 
             ? Result.FromFunction(() => action(result.Value)) 
-            : Result.Failure<TOut>(result.Exception!);
+            : result.CastFailure<TIn, TOut>();
     }
 
     public static Result<TOut> Then<TIn, TOut>(this Result<TIn> result, Func<TIn, Result<TOut>> action)
@@ -71,7 +95,7 @@ public static partial class ResultExtensions
         ArgumentNullException.ThrowIfNull(action);
 
         if (!result.IsSuccess)
-            return Result.Failure<TOut>(result.Exception!);
+            return result.CastFailure<TIn, TOut>();
 
         try
         {

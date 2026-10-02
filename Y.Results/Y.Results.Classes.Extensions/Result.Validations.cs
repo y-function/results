@@ -2,42 +2,58 @@
 
 public static partial class ResultExtensions
 {
-    public static void ThrowIfFailed(this Result? result)
+    public static void ThrowIfFailed(this Result result)
     {
-        if (!result?.IsSuccess ?? false)
+        ArgumentNullException.ThrowIfNull(result);
+        if (!result.IsSuccess)
             throw result.Exception!;
     }
 
-    public static T GetValueOrThrow<T>(this Result<T>? result) =>
-        result is null
-            ? throw new ArgumentNullException(nameof(result))
-            : !result.IsSuccess
-                ? throw result.Exception!
-                : result.Value!;
-
-    public static Result<T> Ensure<T>(this Result<T>? result, Func<T, bool>? predicate, Func<T, Exception> onFailure)
+    public static T GetValueOrThrow<T>(this Result<T> result)
     {
-        if (predicate is null)
-            return Result.Failure<T>(new ArgumentNullException(nameof(predicate)));
+        ArgumentNullException.ThrowIfNull(result);
 
-        return result.Then(v => predicate(v)
-            ? Result.Success(v)
-            : Result.Failure<T>(onFailure(v)));
+        return !result.IsSuccess
+            ? throw result.Exception!
+            : result.Value!;
     }
 
-    public static Result<T> Ensure<T>(this Result<T>? result, Func<T, bool>? predicate, Func<Exception> onFailure) => 
-        result.Ensure(predicate, _ => onFailure());
-
-    public static Result Ensure(this Result? result, Func<bool>? predicate, Func<Exception> onFailure)
+    /// <summary>
+    /// Invokes <paramref name="predicate"/> if the <paramref name="result"/> is success.
+    /// Returns new <see cref="Result.Failure"/> if the <paramref name="predicate"/> resolves to <value>false</value>.
+    /// If <paramref name="onFailure"/> is specified, invokes it to initialize the <see cref="Result.Failure"/> with its returned value.
+    /// Otherwise, returns the original <paramref name="result"/>.
+    /// </summary>
+    public static Result Validate(this Result result, Func<bool> predicate, Func<Exception>? onFailure = null)
     {
-        if (predicate is null)
-            return Result.Failure(new ArgumentNullException(nameof(predicate)));
-
-        return result.Then(() => predicate()
-            ? Result.Success()
-            : Result.Failure(onFailure()));
+        ArgumentNullException.ThrowIfNull(predicate);
+        return result.Then(() => Result.FromCondition(predicate, onFailure)).Then(result);
     }
 
-    public static Result<T> FailIfNull<T>(this Result<T>? result, Func<Exception> onFailure) =>
-        result.Ensure(value => value is not null, onFailure);
+    /// <summary>
+    /// Invokes <paramref name="predicate"/> if the <paramref name="result"/> is success.
+    /// Returns new <see cref="Result.Failure"/> if the <paramref name="predicate"/> resolves to <value>false</value>.
+    /// If <paramref name="onFailure"/> is specified, invokes it to initialize the <see cref="Result.Failure"/> with its returned value.
+    /// Otherwise, returns the original <paramref name="result"/>.
+    /// </summary>
+    public static Result<T> Validate<T>(this Result<T> result, Func<T, bool> predicate, Func<T, Exception>? onFailure = null)
+    {
+        ArgumentNullException.ThrowIfNull(predicate);
+        return result.Then(v => Result.FromCondition(v, predicate, onFailure)).Then(result);
+    }
+
+    /// <summary>
+    /// Invokes <paramref name="predicate"/> if the <paramref name="result"/> is success.
+    /// Returns new <see cref="Result.Failure"/> if the <paramref name="predicate"/> resolves to <value>false</value>.
+    /// If <paramref name="onFailure"/> is specified, invokes it to initialize the <see cref="Result.Failure"/> with its returned value.
+    /// Otherwise, returns the original <paramref name="result"/>.
+    /// </summary>
+    public static Result<T> Validate<T>(this Result<T> result, Func<T, bool> predicate, Func<Exception>? onFailure) =>
+        Validate(result, predicate, onFailure is null ? null : _ => onFailure());
+
+    /// <summary>
+    /// Invokes <see cref="Validate"/> with the following predicate:<code>v => v is not null</code>. 
+    /// </summary>
+    public static Result<T> ValidateNotNull<T>(this Result<T> result, Func<Exception>? onFailure = null) => 
+        Validate(result, v => v is not null, onFailure);
 }

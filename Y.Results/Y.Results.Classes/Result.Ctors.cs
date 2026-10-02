@@ -82,21 +82,49 @@ public partial class Result
     }
     
     //TODO: Wrap(Func<Result> func) and related
+
+    public static Result FromCondition(Func<bool> predicate, Func<Exception>? onFailure = null)
+    {
+        ArgumentNullException.ThrowIfNull(predicate);
+
+        try
+        {
+            return predicate() ? Success() : Failure(EvalExceptionOrDefault(onFailure));
+        }
+        catch (Exception e)
+        {
+            return Failure(e);
+        }
+    }
     
     public static Result<T> FromCondition<T>(T o, Func<T, bool> predicate, Func<Exception>? onFailure = null)
     {
         ArgumentNullException.ThrowIfNull(predicate);
-
-        Exception GetException() => 
-            onFailure?.Invoke() ?? new Exception(ConditionValidationHasFailedErrorMessage);
         
         try
         {
-            return predicate(o) ? Success(o) : Failure<T>(GetException());
+            return predicate(o) ? Success(o) : Failure<T>(EvalExceptionOrDefault(onFailure));
         }
         catch (Exception e)
         {
             return Failure<T>(e);
         }
     }
+
+    public static Result<T> FromCondition<T>(T o, Func<T, bool> predicate, Func<T, Exception>? onFailure = null)
+    {
+        ArgumentNullException.ThrowIfNull(predicate);
+
+        try
+        {
+            return predicate(o) ? Success(o) : Failure<T>(EvalExceptionOrDefault(onFailure != null ? () => onFailure(o) : null));
+        }
+        catch (Exception e)
+        {
+            return Failure<T>(e);
+        }
+    }
+    
+    private static Exception EvalExceptionOrDefault(Func<Exception>? onFailure) =>
+        onFailure?.Invoke() ?? new Exception(ConditionValidationHasFailedErrorMessage);
 }

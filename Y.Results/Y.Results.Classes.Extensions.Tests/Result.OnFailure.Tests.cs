@@ -4,7 +4,6 @@ namespace Y.Results.Extensions.Tests;
 
 public partial class ResultExtensionsTests
 {
-    private Exception ExpectedException { get; } = new Exception("Expected exception.");
     
     [Test]
     public void TestOnFailureNullResult()

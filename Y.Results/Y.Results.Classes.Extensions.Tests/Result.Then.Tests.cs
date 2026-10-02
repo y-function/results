@@ -5,6 +5,74 @@ namespace Y.Results.Extensions.Tests;
 public partial class ResultExtensionsTests
 {
     [Test]
+    public void TestThenResultNullResult()
+    {
+        Result result = null!;
+        Result next = Result.Success();
+        Assert.Throws<ArgumentNullException>(() => result.Then(next));
+    }
+
+    [Test]
+    public void TestThenResultNullNext()
+    {
+        var input = Result.Success();
+        Assert.Throws<ArgumentNullException>(() => input.Then((Result)null!));
+    }
+
+    [Test]
+    public void TestThenResultForFailure()
+    {
+        var input = Result.Failure(ExpectedException);
+        var next = Result.Success();
+        var output = input.Then(next);
+        Assert.That(output, Is.SameAs(input));
+    }
+
+    [Test]
+    public void TestThenResultVoidToTypedForSuccess()
+    {
+        var input = Result.Success();
+        var next = Result.Success();
+        var output = input.Then(next);
+        Assert.That(output, Is.SameAs(next));
+    }
+
+    [Test]
+    public void TestThenResultVoidToTypedNullResult()
+    {
+        Result result = null!;
+        var next = Result.Success(1);
+        Assert.Throws<ArgumentNullException>(() => result.Then(next));
+    }
+
+    [Test]
+    public void TestThenResultVoidToTypedNullNext()
+    {
+        var input = Result.Success();
+        Assert.Throws<ArgumentNullException>(() => input.Then((Result<int>)null!));
+    }
+
+    [Test]
+    public void TestThenResultVoidToTypedForFailure()
+    {
+        var input = Result.Failure(ExpectedException);
+        var next = Result.Success(1);
+        var output = input.Then(next);
+        Assert.That(output, Is.Not.Null);
+        Assert.That(output.IsSuccess, Is.False);
+        Assert.That(output.Exception, Is.SameAs(ExpectedException));
+    }
+
+    [Test]
+    public void TestThenResultForSuccess()
+    {
+        var input = Result.Success();
+        var next = Result.Success(2);
+        var output = input.Then(next);
+        Assert.That(output, Is.SameAs(next));
+    }
+    
+    [Test]
     public void TestThenActionNullResult()
     {
         Result result = null!;
@@ -47,6 +115,40 @@ public partial class ResultExtensionsTests
         Assert.That(output, Is.SameAs(input));
         actionMock.Verify(a => a.Invoke(), Times.Never);
     }
+    
+    [Test]
+    public void TestThenResultTypedNullResult()
+    {
+        var result = (Result<int>)null!;
+        var next = Result.Success(1);
+        Assert.Throws<ArgumentNullException>(() => result.Then(next));
+    }
+
+    [Test]
+    public void TestThenResultTypedNullNext()
+    {
+        var input = Result.Success(1);
+        Assert.Throws<ArgumentNullException>(() => input.Then((Result<int>)null!));
+    }
+
+    [Test]
+    public void TestThenResultTypedForFailure()
+    {
+        var input = Result.Failure<int>(ExpectedException);
+        var next = Result.Success(1);
+        var output = input.Then(next);
+        Assert.That(output, Is.SameAs(input));
+    }
+
+    [Test]
+    public void TestThenResultTypedForSuccess()
+    {
+        var input = Result.Success(1);
+        var next = Result.Success(2);
+        var output = input.Then(next);
+        Assert.That(output, Is.SameAs(next));
+    }
+    
 
     [Test]
     public void TestThenFuncNullResult()
