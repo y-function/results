@@ -96,22 +96,8 @@ public partial class Result
             return Failure(e);
         }
     }
-    
-    public static Result<T> FromCondition<T>(T o, Func<T, bool> predicate, Func<Exception>? onFailure = null)
-    {
-        ArgumentNullException.ThrowIfNull(predicate);
-        
-        try
-        {
-            return predicate(o) ? Success(o) : Failure<T>(EvalExceptionOrDefault(onFailure));
-        }
-        catch (Exception e)
-        {
-            return Failure<T>(e);
-        }
-    }
 
-    public static Result<T> FromCondition<T>(T o, Func<T, bool> predicate, Func<T, Exception>? onFailure = null)
+    public static Result<T> FromCondition<T>(T o, Func<T, bool> predicate, Func<T, Exception>? onFailure)
     {
         ArgumentNullException.ThrowIfNull(predicate);
 
@@ -123,6 +109,11 @@ public partial class Result
         {
             return Failure<T>(e);
         }
+    }
+    
+    public static Result<T> FromCondition<T>(T o, Func<T, bool> predicate, Func<Exception>? onFailure = null)
+    {
+        return FromCondition(o, predicate, onFailure != null ? _ => onFailure() : null);
     }
     
     private static Exception EvalExceptionOrDefault(Func<Exception>? onFailure) =>
