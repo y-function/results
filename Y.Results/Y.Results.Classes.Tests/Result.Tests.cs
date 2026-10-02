@@ -2,6 +2,8 @@
 
 public partial class ResultTests
 {
+    private Exception ExpectedException { get; } = new("Expected exception.");
+
     [SetUp]
     public void Setup() { }
 

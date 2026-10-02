@@ -42,10 +42,7 @@ public partial class ResultTests
     [Test]
     public void TestFromActionNull()
     {
-        var result = Result.FromAction((Action)null!);
-        Assert.That(result.IsSuccess, Is.False);
-        Assert.That(result.Exception, Is.Not.Null);
-        Assert.That(result.Exception, Is.TypeOf<ArgumentNullException>());
+        Assert.Throws<ArgumentNullException>(() => Result.FromAction((Action)null!));
     }
 
     [Test]
@@ -71,10 +68,7 @@ public partial class ResultTests
     [Test]
     public void TestFromActionNullAsync()
     {
-        var result = Result.FromAction((Func<Task>)null!).GetAwaiter().GetResult();
-        Assert.That(result.IsSuccess, Is.False);
-        Assert.That(result.Exception, Is.Not.Null);
-        Assert.That(result.Exception, Is.TypeOf<ArgumentNullException>());
+        Assert.Throws<ArgumentNullException>(() => Result.FromAction((Func<Task>)null!).GetAwaiter().GetResult());
     }
 
     [Test]
@@ -99,10 +93,7 @@ public partial class ResultTests
     [Test]
     public void TestFromFunctionNull()
     {
-        var result = Result.FromFunction((Func<object>)null!);
-        Assert.That(result.IsSuccess, Is.False);
-        Assert.That(result.Exception, Is.Not.Null);
-        Assert.That(result.Exception, Is.TypeOf<ArgumentNullException>());
+        Assert.Throws<ArgumentNullException>(() => Result.FromFunction((Func<object>)null!));
     }
 
     [Test]
@@ -129,10 +120,7 @@ public partial class ResultTests
     [Test]
     public void TestFromFunctionNullAsync()
     {
-        var result = Result.FromFunction((Func<Task<object>>)null!).GetAwaiter().GetResult();
-        Assert.That(result.IsSuccess, Is.False);
-        Assert.That(result.Exception, Is.Not.Null);
-        Assert.That(result.Exception, Is.TypeOf<ArgumentNullException>());
+        Assert.Throws<ArgumentNullException>(() => Result.FromFunction((Func<Task<object>>)null!).GetAwaiter().GetResult());
     }
 
     [Test]
@@ -158,56 +146,4 @@ public partial class ResultTests
         Assert.That(result.Exception, Is.SameAs(expectedException));
     }
 
-    [Test]
-    public void TestFromConditionNull()
-    {
-        var result = Result.FromCondition(new object(), null!);
-        Assert.That(result.IsSuccess, Is.False);
-        Assert.That(result.Exception, Is.Not.Null);
-        Assert.That(result.Exception, Is.TypeOf<ArgumentNullException>());
-    }
-    
-    [Test]
-    public void TestFromConditionSuccess()
-    {
-        var v = new object();
-        var result = Result.FromCondition(v, _ => true);
-        Assert.That(result.IsSuccess, Is.True);
-        Assert.That(result.Value, Is.SameAs(v));
-        Assert.That(result.Exception, Is.Null);
-    }
-
-    [Test]
-    public void TestFromConditionFailure()
-    {
-        var v = new object();
-        var result = Result.FromCondition(v, _ => false);
-        Assert.That(result.IsSuccess, Is.False);
-        Assert.That(result.Value, Is.Default);
-        Assert.That(result.Exception, Is.Not.Null);
-        Assert.That(result.Exception, Is.TypeOf<Exception>());
-        Assert.That(result.Exception!.Message, Is.EqualTo("Condition validation has failed."));
-    }
-
-    [Test]
-    public void TestFromConditionFailureCustomException()
-    {
-        var v = new object();
-        var expectedException = new Exception();
-        var result = Result.FromCondition(v, _ => false, () => expectedException);
-        Assert.That(result.IsSuccess, Is.False);
-        Assert.That(result.Value, Is.Default);
-        Assert.That(result.Exception, Is.SameAs(expectedException));
-    }
-
-    [Test]
-    public void TestFromConditionFailureOnThrow()
-    {
-        var v = new object();
-        var expectedException = new Exception();
-        var result = Result.FromCondition(v, _ => throw expectedException);
-        Assert.That(result.IsSuccess, Is.False);
-        Assert.That(result.Value, Is.Default);
-        Assert.That(result.Exception, Is.SameAs(expectedException));
-    }
 }

@@ -59,4 +59,6 @@ nunit-*.xml
 # Coverlet
 **/coverage.cobertura.xml
 
+# JetBrains
 Y.Results.sln.DotSettings.user
+.idea/
