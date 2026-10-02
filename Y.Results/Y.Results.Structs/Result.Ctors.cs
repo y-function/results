@@ -1,4 +1,4 @@
-﻿namespace Y.Results.Structs;
+﻿namespace Y.Results;
 
 public readonly partial struct Result
 {
