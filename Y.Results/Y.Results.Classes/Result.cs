@@ -1,36 +1,46 @@
 ﻿namespace Y.Results;
 
-public partial class Result
+#if CLASSES
+public partial class Result : IResultMarker
+#elif STRUCTS
+public readonly partial struct Result : IResultMarker
+#endif
 {
-    public static bool TryGetFailure(out Result? failure, params Result[] results)
+    public static bool TryGetFailure(out Result failure, params ReadOnlySpan<Result> results)
     {
-        failure = results.FirstOrDefault(x => !x.IsSuccess);
-        return failure is not null;
+        return TryGetFailureImpl(out failure, results);
     }
 
-    public static bool TryGetFailure<T>(out Result<T>? failure, params Result<T>[] results)
+    public static bool TryGetFailure<T>(out Result<T> failure, params ReadOnlySpan<Result<T>> results)
     {
-        failure = results.FirstOrDefault(x => !x.IsSuccess);
-        return failure is not null;
+        return TryGetFailureImpl(out failure, results);
     }
 
-    public static bool TryGetFailure<TOut>(out Result<TOut>? failure, params Result[] results)
+    public static bool TryGetFailure<TOut>(out Result<TOut> failure, params ReadOnlySpan<Result> results)
     {
-        var failed = results.FirstOrDefault(x => !x.IsSuccess && x.Exception is not null);
-        if (failed is null)
+        return TryGetFailureImpl(out failure, results);
+    }
+
+    private static bool TryGetFailureImpl<TIn, TOut>(out TOut failure, params ReadOnlySpan<TIn> results) 
+        where TIn : IResultMarker 
+        where TOut : IResultMarker
+    {
+        foreach (ref readonly var result in results)
         {
-            failure = null;
-            return false;
+            if (result.IsSuccess) continue;
+
+            failure = result.GetType() == typeof(TOut) ? (TOut)(IResultMarker)result : (TOut)TOut.Failure(result.Exception!);
+            return true;
         }
 
-        failure = failed as Result<TOut> ?? Failure<TOut>(failed.Exception!);
-        return true;
+        failure = default!;
+        return false;
     }
 
     public Exception? Exception { get; }
     public bool IsSuccess { get; }
 
-    protected Result(bool isSuccess, Exception? exception = null)
+    internal Result(bool isSuccess, Exception? exception = null)
     {
         IsSuccess = isSuccess;
         Exception = exception;

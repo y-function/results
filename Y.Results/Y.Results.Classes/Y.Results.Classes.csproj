@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>Y.Results</RootNamespace>
+    <DefineConstants>$(DefineConstants);CLASSES</DefineConstants>
   </PropertyGroup>
 
 </Project>

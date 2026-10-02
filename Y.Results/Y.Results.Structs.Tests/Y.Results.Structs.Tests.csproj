@@ -2,10 +2,23 @@
 
     <PropertyGroup>
         <RootNamespace>Y.Results.Tests</RootNamespace>
+        <DefineConstants>$(DefineConstants);STRUCTS</DefineConstants>
     </PropertyGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\Y.Results.Structs\Y.Results.Structs.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Include="..\Y.Results.Classes.Tests\Result.Ctors.Tests.cs">
+        <Link>Result.Ctors.Tests.cs</Link>
+      </Compile>
+      <Compile Include="..\Y.Results.Classes.Tests\Result.FromCondition.Tests.cs">
+        <Link>Result.FromCondition.Tests.cs</Link>
+      </Compile>
+      <Compile Include="..\Y.Results.Classes.Tests\Result.Tests.cs">
+        <Link>Result.Tests.cs</Link>
+      </Compile>
     </ItemGroup>
 
 </Project>

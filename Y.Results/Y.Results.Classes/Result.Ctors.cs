@@ -1,6 +1,9 @@
 ﻿namespace Y.Results;
-
+#if CLASSES
 public partial class Result
+#elif STRUCTS
+public readonly partial struct Result
+#endif
 {
     private const string ConditionValidationHasFailedErrorMessage = "Condition validation has failed.";
 
@@ -8,6 +11,8 @@ public partial class Result
 
     public static Result<T> Success<T>(T value) => new(true, value);
 
+    static IResultMarker IResultMarker.Failure(Exception exception) => Failure(exception);
+    
     public static Result Failure(Exception exception)
     {
         ArgumentNullException.ThrowIfNull(exception);
