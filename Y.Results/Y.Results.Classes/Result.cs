@@ -12,6 +12,7 @@ public readonly partial struct Result
     {
         foreach (ref readonly var result in results)
         {
+            AssertNotDefault(result);
             if (result.IsSuccess) continue;
 
             failure = result;
@@ -34,6 +35,16 @@ public readonly partial struct Result
 
         failure = default!;
         return false;
+    }
+
+    internal static void AssertNotDefault(Result result, [CallerArgumentExpression(nameof(result))] string? paramName = null)
+    {
+#if CLASSES
+        if (result == null)
+#elif STRUCTS
+        if (result == default)
+#endif
+            throw new ArgumentNullException(paramName);
     }
 
     public Exception? Exception { get; }

@@ -24,6 +24,12 @@ public partial class ResultTests
     }
 
     [Test]
+    public void TestTryGetFailureEmptyContainsNull()
+    {
+        Assert.Throws<ArgumentNullException>(() => Result.TryGetFailure(out var result, Result.Success(), default!));
+    }
+
+    [Test]
     public void TestTryGetFailureEmptyOneFailure()
     {
         var expectedResult = Result.Failure(new Exception("expected"));
