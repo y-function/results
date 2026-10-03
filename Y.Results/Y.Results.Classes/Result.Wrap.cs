@@ -7,16 +7,16 @@ public readonly partial struct Result
 #endif
 {
     /// <summary>
-    /// Executes <paramref name="unsafeFunction"/> and returns <see cref="Success"/> or <see cref="Failure"/> depending on if it throws.
-    /// An <see cref="ArgumentNullException"/> is thrown if <paramref name="unsafeFunction"/> is <see langword="null"/>. 
+    /// Executes <paramref name="unsafeOperation"/> and returns <see cref="Success"/> or <see cref="Failure"/> depending on if it throws.
+    /// An <see cref="ArgumentNullException"/> is thrown if <paramref name="unsafeOperation"/> is <see langword="null"/>. 
     /// </summary>
-    public static Result Wrap(Action unsafeFunction)
+    public static Result Wrap(Action unsafeOperation)
     {
-        ArgumentNullException.ThrowIfNull(unsafeFunction);
+        ArgumentNullException.ThrowIfNull(unsafeOperation);
 
         try
         {
-            unsafeFunction();
+            unsafeOperation();
             return Success();
         }
         catch (Exception e)
@@ -26,16 +26,16 @@ public readonly partial struct Result
     }
 
     /// <summary>
-    /// Executes <paramref name="unsafeFunction"/> and returns <see cref="Success"/> or <see cref="Failure"/> depending on if it throws.
-    /// An <see cref="ArgumentNullException"/> is thrown if <paramref name="unsafeFunction"/> is <see langword="null"/>. 
+    /// Executes <paramref name="unsafeOperation"/> and returns <see cref="Success"/> or <see cref="Failure"/> depending on if it throws.
+    /// An <see cref="ArgumentNullException"/> is thrown if <paramref name="unsafeOperation"/> is <see langword="null"/>. 
     /// </summary>
-    public static async Task<Result> Wrap(Func<Task> unsafeFunction)
+    public static async Task<Result> Wrap(Func<Task> unsafeOperation)
     {
-        ArgumentNullException.ThrowIfNull(unsafeFunction);
+        ArgumentNullException.ThrowIfNull(unsafeOperation);
 
         try
         {
-            await unsafeFunction();
+            await unsafeOperation();
             return Success();
         }
         catch (Exception e)
@@ -45,16 +45,16 @@ public readonly partial struct Result
     }
 
     /// <summary>
-    /// Executes <paramref name="unsafeFunction"/> and returns <see cref="Success"/> or <see cref="Failure"/> depending on if it throws.
-    /// An <see cref="ArgumentNullException"/> is thrown if <paramref name="unsafeFunction"/> is <see langword="null"/>. 
+    /// Executes <paramref name="unsafeOperation"/> and returns <see cref="Success"/> or <see cref="Failure"/> depending on if it throws.
+    /// An <see cref="ArgumentNullException"/> is thrown if <paramref name="unsafeOperation"/> is <see langword="null"/>. 
     /// </summary>
-    public static Result<T> Wrap<T>(Func<T> unsafeFunction)
+    public static Result<T> Wrap<T>(Func<T> unsafeOperation)
     {
-        ArgumentNullException.ThrowIfNull(unsafeFunction);
+        ArgumentNullException.ThrowIfNull(unsafeOperation);
 
         try
         {
-            var value = unsafeFunction();
+            var value = unsafeOperation();
             return Success(value);
         }
         catch (Exception e)
@@ -64,16 +64,16 @@ public readonly partial struct Result
     }
 
     /// <summary>
-    /// Executes <paramref name="unsafeFunction"/> and returns <see cref="Success"/> or <see cref="Failure"/> depending on if it throws.
-    /// An <see cref="ArgumentNullException"/> is thrown if <paramref name="unsafeFunction"/> is <see langword="null"/>. 
+    /// Executes <paramref name="unsafeOperation"/> and returns <see cref="Success"/> or <see cref="Failure"/> depending on if it throws.
+    /// An <see cref="ArgumentNullException"/> is thrown if <paramref name="unsafeOperation"/> is <see langword="null"/>. 
     /// </summary>
-    public static async Task<Result<T>> Wrap<T>(Func<Task<T>> unsafeFunction)
+    public static async Task<Result<T>> Wrap<T>(Func<Task<T>> unsafeOperation)
     {
-        ArgumentNullException.ThrowIfNull(unsafeFunction);
+        ArgumentNullException.ThrowIfNull(unsafeOperation);
 
         try
         {
-            var value = await unsafeFunction();
+            var value = await unsafeOperation();
             return Success(value);
         }
         catch (Exception e)
