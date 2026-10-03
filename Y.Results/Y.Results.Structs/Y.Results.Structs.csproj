@@ -12,6 +12,9 @@
       <Compile Include="..\Y.Results.Classes\Result.Ctors.cs">
         <Link>Result.Ctors.cs</Link>
       </Compile>
+      <Compile Include="..\Y.Results.Classes\Result.Equatable.cs">
+        <Link>Result.Equatable.cs</Link>
+      </Compile>
       <Compile Include="..\Y.Results.Classes\Result.Generic.cs">
         <Link>Result.Generic.cs</Link>
       </Compile>

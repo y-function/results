@@ -4,5 +4,11 @@
     <RootNamespace>Y.Results</RootNamespace>
     <DefineConstants>$(DefineConstants);CLASSES</DefineConstants>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>$(AssemblyName).Extensions</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
 
 </Project>

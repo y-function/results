@@ -4,15 +4,15 @@ public static partial class ResultExtensions
 {
     public static Result Then(this Result result, Result next)
     {
-        AssertNotDefault(result);
-        AssertNotDefault(next);
+        Result.AssertNotDefault(result);
+        Result.AssertNotDefault(next);
         
         return result.IsSuccess ? next : result;
     }
 
     public static Result Then(this Result result, Action action)
     {
-        AssertNotDefault(result);
+        Result.AssertNotDefault(result);
 
         return result.IsSuccess 
             ? Result.FromAction(action) 
@@ -21,7 +21,7 @@ public static partial class ResultExtensions
 
     public static Result<TOut> Then<TOut>(this Result result, Func<TOut> action)
     {
-        AssertNotDefault(result);
+        Result.AssertNotDefault(result);
 
         return result.IsSuccess 
             ? Result.FromFunction(action) 
@@ -30,7 +30,7 @@ public static partial class ResultExtensions
 
     public static Result Then(this Result result, Func<Result> action)
     {
-        AssertNotDefault(result);
+        Result.AssertNotDefault(result);
         ArgumentNullException.ThrowIfNull(action);
         if (!result.IsSuccess)
             return result;
@@ -47,23 +47,23 @@ public static partial class ResultExtensions
 
     public static Result<TOut> Then<TOut>(this Result result, Result<TOut> next)
     {
-        AssertNotDefault(result);
-        AssertNotDefault(next);
+        Result.AssertNotDefault(result);
+        Result.AssertNotDefault(next);
 
         return result.IsSuccess ? next : Result.Failure<TOut>(result.Exception!);
     }
 
     public static Result<TOut> Then<TIn, TOut>(this Result<TIn> result, Result<TOut> next)
     {
-        AssertNotDefault(result);
-        AssertNotDefault(next);
+        Result.AssertNotDefault(result);
+        Result.AssertNotDefault(next);
 
         return result.IsSuccess ? next : result.CastFailure<TIn, TOut>();
     }
     
     public static Result<TOut> Then<TOut>(this Result result, Func<Result<TOut>> action)
     {
-        AssertNotDefault(result);
+        Result.AssertNotDefault(result);
         ArgumentNullException.ThrowIfNull(action);
 
         if (!result.IsSuccess)
@@ -81,7 +81,7 @@ public static partial class ResultExtensions
 
     public static Result<TOut> Then<TIn, TOut>(this Result<TIn> result, Func<TIn, TOut> action)
     {
-        AssertNotDefault(result);
+        Result.AssertNotDefault(result);
         ArgumentNullException.ThrowIfNull(action);
 
         return result.IsSuccess 
@@ -91,7 +91,7 @@ public static partial class ResultExtensions
 
     public static Result<TOut> Then<TIn, TOut>(this Result<TIn> result, Func<TIn, Result<TOut>> action)
     {
-        AssertNotDefault(result);
+        Result.AssertNotDefault(result);
         ArgumentNullException.ThrowIfNull(action);
 
         if (!result.IsSuccess)
@@ -109,7 +109,7 @@ public static partial class ResultExtensions
 
     public static Result Then<TIn>(this Result<TIn> result, Func<TIn, Result> action)
     {
-        AssertNotDefault(result);
+        Result.AssertNotDefault(result);
         ArgumentNullException.ThrowIfNull(action);
 
         if (!result.IsSuccess)
