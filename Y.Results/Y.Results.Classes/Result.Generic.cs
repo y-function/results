@@ -1,16 +1,11 @@
 ﻿namespace Y.Results;
 
 #if CLASSES
-public class Result<T> : Result, IResultMarker
+public class Result<T> : Result
 #elif STRUCTS
-public readonly struct Result<T> : IResultMarker
+public readonly struct Result<T>
 #endif
 {
-    static IResultMarker IResultMarker.Failure(Exception exception)
-    {
-        return Result.Failure<T>(exception);
-    }
- 
     public T Value { get; }
 #if CLASSES
     protected internal Result(bool isSuccess, T value, Exception? exception = null) : base(isSuccess, exception) => Value = value;

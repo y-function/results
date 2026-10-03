@@ -10,8 +10,6 @@ public readonly partial struct Result
     public static Result Success() => new(true);
 
     public static Result<T> Success<T>(T value) => new(true, value);
-
-    static IResultMarker IResultMarker.Failure(Exception exception) => Failure(exception);
     
     public static Result Failure(Exception exception)
     {

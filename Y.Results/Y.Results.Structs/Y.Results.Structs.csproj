@@ -6,9 +6,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Include="..\Y.Results.Classes\IResultMarker.cs">
-        <Link>IResultMarker.cs</Link>
-      </Compile>
       <Compile Include="..\Y.Results.Classes\Result.cs">
         <Link>Result.cs</Link>
       </Compile>

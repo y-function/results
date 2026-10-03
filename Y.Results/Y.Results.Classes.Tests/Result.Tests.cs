@@ -52,7 +52,7 @@ public partial class ResultTests
     [Test]
     public void TestTryGetFailureTypedNoItems()
     {
-        var success = Result.TryGetFailure<object>(out var result, Array.Empty<Result>());
+        var success = Result.TryGetFailure(out var result, Array.Empty<Result<object>>());
         Assert.That(success, Is.False);
         Assert.That(result, Is.Default);
     }
@@ -94,7 +94,7 @@ public partial class ResultTests
     [Test]
     public void TestTryGetFailureMixedNoFailures()
     {
-        var success = Result.TryGetFailure<int>(out var result, Result.Success(1), Result.Success());
+        var success = Result.TryGetFailure<int>(out var result, Result.Success(1), Result.Success(3));
         Assert.That(success, Is.False);
         Assert.That(result, Is.Default);
     }
@@ -103,7 +103,7 @@ public partial class ResultTests
     public void TestTryGetFailureMixedOneFailureMatchingType()
     {
         var expectedResult = Result.Failure<int>(new Exception("expected"));
-        var success = Result.TryGetFailure<int>(out var result, Result.Success(1), Result.Success(), expectedResult);
+        var success = Result.TryGetFailure<int>(out var result, Result.Success(1), Result.Success(3), expectedResult);
         Assert.That(success, Is.True);
 #if CLASSES
         Assert.That(result, Is.SameAs(expectedResult));
@@ -116,7 +116,7 @@ public partial class ResultTests
     public void TestTryGetFailureMixedOneFailureDifferentType()
     {
         var expectedResult = Result.Failure<string>(new Exception("expected"));
-        var success = Result.TryGetFailure<int>(out var result, Result.Success(1), Result.Success(), expectedResult);
+        var success = Result.TryGetFailure(out var result, Result.Success(1), Result.Success(1), expectedResult);
         Assert.That(success, Is.True);
         Assert.That(result, Is.Not.Null);
         Assert.That(result!.IsSuccess, Is.False);
@@ -127,7 +127,7 @@ public partial class ResultTests
     public void TestTryGetFailureMixedMultipleFailures()
     {
         var expectedResult = Result.Failure<int>(new Exception("expected"));
-        var success = Result.TryGetFailure<int>(out var result, Result.Success(), expectedResult, Result.Failure<int>(new Exception()));
+        var success = Result.TryGetFailure<int>(out var result, Result.Success(2), expectedResult, Result.Failure<int>(new Exception()));
         Assert.That(success, Is.True);
 #if CLASSES
         Assert.That(result, Is.SameAs(expectedResult));
