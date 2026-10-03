@@ -15,7 +15,7 @@ public static partial class ResultExtensions
         AssertNotDefault(result);
 
         return result.IsSuccess 
-            ? Result.FromAction(action) 
+            ? Result.Wrap(action) 
             : result;
     }
 
@@ -24,7 +24,7 @@ public static partial class ResultExtensions
         AssertNotDefault(result);
 
         return result.IsSuccess 
-            ? Result.FromFunction(action) 
+            ? Result.Wrap(action) 
             : Result.Failure<TOut>(result.Exception!);
     }
 
@@ -85,7 +85,7 @@ public static partial class ResultExtensions
         ArgumentNullException.ThrowIfNull(action);
 
         return result.IsSuccess 
-            ? Result.FromFunction(() => action(result.Value)) 
+            ? Result.Wrap(() => action(result.Value)) 
             : result.CastFailure<TIn, TOut>();
     }
 

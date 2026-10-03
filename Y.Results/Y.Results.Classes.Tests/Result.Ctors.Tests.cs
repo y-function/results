@@ -42,13 +42,13 @@ public partial class ResultTests
     [Test]
     public void TestFromActionNull()
     {
-        Assert.Throws<ArgumentNullException>(() => Result.FromAction((Action)null!));
+        Assert.Throws<ArgumentNullException>(() => Result.Wrap((Action)null!));
     }
 
     [Test]
     public void TestFromActionSuccess()
     {
-        var result = Result.FromAction(() => { });
+        var result = Result.Wrap(() => { });
         Assert.That(result.IsSuccess, Is.True);
         Assert.That(result.Exception, Is.Null);
     }
@@ -60,7 +60,7 @@ public partial class ResultTests
 
         void Action() => throw expectedException;
 
-        var result = Result.FromAction(Action);
+        var result = Result.Wrap(Action);
         Assert.That(result.IsSuccess, Is.False);
         Assert.That(result.Exception, Is.SameAs(expectedException));
     }
@@ -68,14 +68,14 @@ public partial class ResultTests
     [Test]
     public void TestFromActionNullAsync()
     {
-        Assert.Throws<ArgumentNullException>(() => Result.FromAction((Func<Task>)null!).GetAwaiter().GetResult());
+        Assert.Throws<ArgumentNullException>(() => Result.Wrap((Func<Task>)null!).GetAwaiter().GetResult());
     }
 
     [Test]
     public void TestFromActionSuccessAsync()
     {
         Task Action() => Task.CompletedTask;
-        var result = Result.FromAction(Action).GetAwaiter().GetResult();
+        var result = Result.Wrap(Action).GetAwaiter().GetResult();
         Assert.That(result.IsSuccess, Is.True);
         Assert.That(result.Exception, Is.Null);
     }
@@ -85,7 +85,7 @@ public partial class ResultTests
     {
         var expectedException = new Exception();
         Task Action() => Task.FromException(expectedException);
-        var result = Result.FromAction(Action).GetAwaiter().GetResult();
+        var result = Result.Wrap(Action).GetAwaiter().GetResult();
         Assert.That(result.IsSuccess, Is.False);
         Assert.That(result.Exception, Is.SameAs(expectedException));
     }
@@ -93,14 +93,14 @@ public partial class ResultTests
     [Test]
     public void TestFromFunctionNull()
     {
-        Assert.Throws<ArgumentNullException>(() => Result.FromFunction((Func<object>)null!));
+        Assert.Throws<ArgumentNullException>(() => Result.Wrap((Func<object>)null!));
     }
 
     [Test]
     public void TestFromFunctionSuccess()
     {
         var v = new object();
-        var result = Result.FromFunction(() => v);
+        var result = Result.Wrap(() => v);
         Assert.That(result.IsSuccess, Is.True);
         Assert.That(result.Value, Is.SameAs(v));
         Assert.That(result.Exception, Is.Null);
@@ -111,7 +111,7 @@ public partial class ResultTests
     {
         var expectedException = new Exception();
         object Func() => throw expectedException;
-        var result = Result.FromFunction(Func);
+        var result = Result.Wrap(Func);
         Assert.That(result.IsSuccess, Is.False);
         Assert.That(result.Value, Is.Default);
         Assert.That(result.Exception, Is.SameAs(expectedException));
@@ -120,14 +120,14 @@ public partial class ResultTests
     [Test]
     public void TestFromFunctionNullAsync()
     {
-        Assert.Throws<ArgumentNullException>(() => Result.FromFunction((Func<Task<object>>)null!).GetAwaiter().GetResult());
+        Assert.Throws<ArgumentNullException>(() => Result.Wrap((Func<Task<object>>)null!).GetAwaiter().GetResult());
     }
 
     [Test]
     public void TestFromFunctionSuccessAsync()
     {
         var v = new object();
-        var result = Result.FromFunction(() => Task.FromResult(v)).GetAwaiter().GetResult();
+        var result = Result.Wrap(() => Task.FromResult(v)).GetAwaiter().GetResult();
         Assert.That(result.IsSuccess, Is.True);
         Assert.That(result.Value, Is.SameAs(v));
         Assert.That(result.Exception, Is.Null);
@@ -140,7 +140,7 @@ public partial class ResultTests
 
         Task<object> Func() => Task.FromException<object>(expectedException);
 
-        var result = Result.FromFunction(Func).GetAwaiter().GetResult();
+        var result = Result.Wrap(Func).GetAwaiter().GetResult();
         Assert.That(result.IsSuccess, Is.False);
         Assert.That(result.Value, Is.Default);
         Assert.That(result.Exception, Is.SameAs(expectedException));

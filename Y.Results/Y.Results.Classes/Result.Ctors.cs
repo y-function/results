@@ -24,68 +24,6 @@ public readonly partial struct Result
         return new Result<T>(false, default!, exception);
     }
 
-    public static Result FromAction(Action action)
-    {
-        ArgumentNullException.ThrowIfNull(action);
-
-        try
-        {
-            action();
-            return Success();
-        }
-        catch (Exception e)
-        {
-            return Failure(e);
-        }
-    }
-
-    public static async Task<Result> FromAction(Func<Task> action)
-    {
-        ArgumentNullException.ThrowIfNull(action);
-
-        try
-        {
-            await action();
-            return Success();
-        }
-        catch (Exception e)
-        {
-            return Failure(e);
-        }
-    }
-
-    public static Result<T> FromFunction<T>(Func<T> func)
-    {
-        ArgumentNullException.ThrowIfNull(func);
-
-        try
-        {
-            var value = func();
-            return Success(value);
-        }
-        catch (Exception e)
-        {
-            return Failure<T>(e);
-        }
-    }
-
-    public static async Task<Result<T>> FromFunction<T>(Func<Task<T>> func)
-    {
-        ArgumentNullException.ThrowIfNull(func);
-
-        try
-        {
-            var value = await func();
-            return Success(value);
-        }
-        catch (Exception e)
-        {
-            return Failure<T>(e);
-        }
-    }
-    
-    //TODO: Wrap(Func<Result> func) and related
-
     public static Result FromCondition(Func<bool> predicate, Func<Exception>? onFailure = null)
     {
         ArgumentNullException.ThrowIfNull(predicate);

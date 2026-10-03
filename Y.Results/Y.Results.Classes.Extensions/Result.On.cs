@@ -13,7 +13,7 @@ public static partial class ResultExtensions
         if (!result.IsSuccess)
             return result;
 
-        Result.FromAction(action);
+        Result.Wrap(action);
         return result;
     }
 
@@ -29,7 +29,7 @@ public static partial class ResultExtensions
         if (!result.IsSuccess)
             return result;
 
-        Result.FromAction(() => action(result.Value));
+        Result.Wrap(() => action(result.Value));
         return result;
     }
 
@@ -45,7 +45,7 @@ public static partial class ResultExtensions
         if (result.IsSuccess)
             return result;
 
-        Result.FromAction(() => action(result.Exception!));
+        Result.Wrap(() => action(result.Exception!));
         return result;
     }
 
@@ -61,7 +61,7 @@ public static partial class ResultExtensions
         if (result.IsSuccess)
             return result;
 
-        Result.FromAction(() => action(result.Exception!));
+        Result.Wrap(() => action(result.Exception!));
         return result;
     }
 }
