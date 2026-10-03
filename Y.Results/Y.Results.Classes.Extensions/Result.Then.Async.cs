@@ -7,7 +7,7 @@ public static partial class ResultExtensions
         ArgumentNullException.ThrowIfNull(result);
 
         return result.IsSuccess 
-            ? await Result.FromAction(action) 
+            ? await Result.Wrap(action) 
             : result;
     }
 
@@ -17,7 +17,7 @@ public static partial class ResultExtensions
         ArgumentNullException.ThrowIfNull(action);
 
         return result.IsSuccess 
-            ? await Result.FromAction(() => action(result.Value)) 
+            ? await Result.Wrap(() => action(result.Value)) 
             : result;
     }
 
@@ -81,7 +81,7 @@ public static partial class ResultExtensions
         ArgumentNullException.ThrowIfNull(action);
 
         return result.IsSuccess
-            ? await Result.FromFunction(() => action(result.Value))
+            ? await Result.Wrap(() => action(result.Value))
             : Result.Failure<TOut>(result.Exception!);
     }
 

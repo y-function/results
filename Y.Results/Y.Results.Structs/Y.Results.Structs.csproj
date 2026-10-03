@@ -15,6 +15,9 @@
       <Compile Include="..\Y.Results.Classes\Result.Generic.cs">
         <Link>Result.Generic.cs</Link>
       </Compile>
+      <Compile Include="..\Y.Results.Classes\Result.Wrap.cs">
+        <Link>Result.Wrap.cs</Link>
+      </Compile>
     </ItemGroup>
 
 </Project>
