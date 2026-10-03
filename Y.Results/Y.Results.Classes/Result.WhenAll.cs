@@ -24,18 +24,18 @@ public readonly partial struct Result
     }
     
     public static Result<Tuple<T1, T2>> WhenAll<T1, T2>(Result<T1> r1, Result<T2> r2) =>
-        !r1.IsSuccess
-            ? Failure<Tuple<T1, T2>>(r1.Exception!)
-            : !r2.IsSuccess
-                ? Failure<Tuple<T1, T2>>(r2.Exception!)
-                : Success(new Tuple<T1, T2>(r1.Value!, r2.Value!));
+        r1.IsSuccess
+            ? r2.IsSuccess
+                ? Success(new Tuple<T1, T2>(r1.Value!, r2.Value!))
+                : Failure<Tuple<T1, T2>>(r2.Exception!)
+            : Failure<Tuple<T1, T2>>(r1.Exception!);
 
     public static Result<Tuple<T1, T2, T3>> WhenAll<T1, T2, T3>(Result<T1> r1, Result<T2> r2, Result<T3> r3) =>
-        !r1.IsSuccess
-            ? Failure<Tuple<T1, T2, T3>>(r1.Exception!)
-            : !r2.IsSuccess
-                ? Failure<Tuple<T1, T2, T3>>(r2.Exception!)
-                : !r3.IsSuccess
-                    ? Failure<Tuple<T1, T2, T3>>(r3.Exception!)
-                    : Success(new Tuple<T1, T2, T3>(r1.Value!, r2.Value!, r3.Value!));
+        r1.IsSuccess
+            ? r2.IsSuccess
+                ? r3.IsSuccess
+                    ? Success(new Tuple<T1, T2, T3>(r1.Value!, r2.Value!, r3.Value!))
+                    : Failure<Tuple<T1, T2, T3>>(r3.Exception!)
+                : Failure<Tuple<T1, T2, T3>>(r2.Exception!)
+            : Failure<Tuple<T1, T2, T3>>(r1.Exception!);
 }
