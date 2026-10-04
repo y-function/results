@@ -10,5 +10,9 @@
       <_Parameter1>$(AssemblyName).Extensions</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Remove="Result.Equatable.cs" />
+  </ItemGroup>
 
 </Project>

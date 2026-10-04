@@ -19,6 +19,9 @@
       <Compile Include="..\Y.Results.Classes.Tests\Result.Tests.cs">
         <Link>Result.Tests.cs</Link>
       </Compile>
+      <Compile Include="..\Y.Results.Classes.Tests\Result.WhenAll.Tests.cs">
+        <Link>Result.WhenAll.Tests.cs</Link>
+      </Compile>
     </ItemGroup>
 
 </Project>

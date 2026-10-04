@@ -3,7 +3,7 @@
 #if CLASSES
 public partial class Result
 #elif STRUCTS
-public readonly partial struct Result
+public readonly partial record struct Result
 #endif
 {
     public static Result WhenAll(params ReadOnlySpan<Result> results) => 
@@ -14,6 +14,7 @@ public readonly partial struct Result
         var values = new List<T>();
         foreach (ref readonly var result in results)
         {
+            AssertNotDefault(result);
             if (!result.IsSuccess) 
                 return Failure<IReadOnlyList<T>>(result.Exception!);
 

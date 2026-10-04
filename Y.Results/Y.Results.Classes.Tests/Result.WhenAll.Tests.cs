@@ -47,7 +47,7 @@ public partial class ResultTests
     }
 
     [Test]
-    public void TestWhenAllContainsNull()
+    public void TestWhenAllContainsDefault()
     {
         Assert.Throws<ArgumentNullException>(() => Result.WhenAll(Result.Success(), Result.Success(), Result.Success(), default!));
     }
@@ -97,5 +97,11 @@ public partial class ResultTests
         Assert.That(output, Is.Not.Null);
         Assert.That(output.IsSuccess, Is.False);
         Assert.That(output.Exception, Is.SameAs(ExpectedException));
+    }
+
+    [Test]
+    public void TestWhenAllTypedContainsDefault()
+    {
+        Assert.Throws<ArgumentNullException>(() => Result.WhenAll(Result.Success(), Result.Success(), default!));
     }
 }
