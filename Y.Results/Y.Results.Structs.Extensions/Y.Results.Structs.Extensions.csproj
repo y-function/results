@@ -2,6 +2,29 @@
 
     <PropertyGroup>
         <RootNamespace>Y.Results.Extensions</RootNamespace>
+        <DefineConstants>$(DefineConstants);STRUCTS</DefineConstants>
     </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Y.Results.Structs\Y.Results.Structs.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Include="..\Y.Results.Classes.Extensions\Result.On.cs">
+        <Link>Result.On.cs</Link>
+      </Compile>
+      <Compile Include="..\Y.Results.Classes.Extensions\Result.Then.Async.cs">
+        <Link>Result.Then.Async.cs</Link>
+      </Compile>
+      <Compile Include="..\Y.Results.Classes.Extensions\Result.Then.cs">
+        <Link>Result.Then.cs</Link>
+      </Compile>
+      <Compile Include="..\Y.Results.Classes.Extensions\Result.Validations.cs">
+        <Link>Result.Validations.cs</Link>
+      </Compile>
+      <Compile Include="..\Y.Results.Classes.Extensions\ResultExtensions.cs">
+        <Link>ResultExtensions.cs</Link>
+      </Compile>
+    </ItemGroup>
 
 </Project>

@@ -6,14 +6,14 @@ public partial class ResultExtensionsTests
     public void TestThrowIfFailedForSuccess()
     {
         var input = Result.Success();
-        Assert.DoesNotThrow(input.ThrowIfFailed);
+        Assert.DoesNotThrow(() => input.ThrowIfFailed());
     }
 
     [Test]
     public void TestThrowIfFailedForFailure()
     {
         var input = Result.Failure(ExpectedException);
-        var e = Assert.Throws(ExpectedException.GetType(), input.ThrowIfFailed);
+        var e = Assert.Throws(ExpectedException.GetType(), () => input.ThrowIfFailed());
         Assert.That(e, Is.SameAs(ExpectedException));
     }
 
@@ -37,7 +37,7 @@ public partial class ResultExtensionsTests
     [Test]
     public void TestValidateForNullResult()
     {
-        var input = (Result)null!;
+        var input = (Result)default!;
         Assert.Throws<ArgumentNullException>(() => input.Validate(() => true));
     }
 
@@ -60,7 +60,11 @@ public partial class ResultExtensionsTests
     {
         var input = Result.Success();
         var output = input.Validate(() => true);
+#if CLASSES
         Assert.That(output, Is.SameAs(input));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(input));
+#endif
     }
 
     [Test]
@@ -74,7 +78,11 @@ public partial class ResultExtensionsTests
                     Assert.Fail();
                     return ExpectedException;
                 });
+#if CLASSES
         Assert.That(output, Is.SameAs(input));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(input));
+#endif
     }
 
     [Test]
@@ -108,14 +116,18 @@ public partial class ResultExtensionsTests
                 Assert.Fail();
                 return false;
             });
+#if CLASSES
         Assert.That(output, Is.SameAs(input));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(input));
+#endif
     }
 
     [Test]
     public void TestValidateTypedForNullResult()
     {
-        var input = (Result<int>)null!;
-        Assert.Throws<ArgumentNullException>(() => input.Validate(() => true));
+        var input = (Result<int>)default!;
+        Assert.Throws<ArgumentNullException>(() => input.Validate(_ => true));
     }
 
     [Test]
@@ -137,7 +149,11 @@ public partial class ResultExtensionsTests
     {
         var input = Result.Success(1);
         var output = input.Validate(_ => true);
+#if CLASSES
         Assert.That(output, Is.SameAs(input));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(input));
+#endif
     }
 
     [Test]
@@ -151,7 +167,11 @@ public partial class ResultExtensionsTests
                     Assert.Fail();
                     return ExpectedException;
                 });
+#if CLASSES
         Assert.That(output, Is.SameAs(input));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(input));
+#endif
     }
 
     [Test]
@@ -159,7 +179,6 @@ public partial class ResultExtensionsTests
     {
         var input = Result.Success(1);
         var output = input.Validate(_ => false);
-        Assert.That(output, Is.Not.SameAs(input));
         AssertConditionFailure(output);
     }
 
@@ -196,7 +215,11 @@ public partial class ResultExtensionsTests
                 Assert.Fail();
                 return false;
             });
+#if CLASSES
         Assert.That(output, Is.SameAs(input));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(input));
+#endif
     }
     
     [Test]
@@ -221,7 +244,11 @@ public partial class ResultExtensionsTests
     {
         var input = Result.Success(new object());
         var output = input.ValidateNotNull();
+#if CLASSES
         Assert.That(output, Is.SameAs(input));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(input));
+#endif
     }
 
     [Test]
@@ -229,6 +256,10 @@ public partial class ResultExtensionsTests
     {
         var input = Result.Failure<object>(ExpectedException);
         var output = input.ValidateNotNull();
+#if CLASSES
         Assert.That(output, Is.SameAs(input));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(input));
+#endif
     } 
 }

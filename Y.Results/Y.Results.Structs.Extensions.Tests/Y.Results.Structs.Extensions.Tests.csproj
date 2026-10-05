@@ -2,6 +2,33 @@
 
     <PropertyGroup>
         <RootNamespace>Y.Results.Extensions.Tests</RootNamespace>
+        <DefineConstants>$(DefineConstants);STRUCTS</DefineConstants>
     </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Include="..\Y.Results.Classes.Extensions.Tests\Result.OnFailure.Tests.cs">
+        <Link>Result.OnFailure.Tests.cs</Link>
+      </Compile>
+      <Compile Include="..\Y.Results.Classes.Extensions.Tests\Result.OnSuccess.Tests.cs">
+        <Link>Result.OnSuccess.Tests.cs</Link>
+      </Compile>
+      <Compile Include="..\Y.Results.Classes.Extensions.Tests\Result.Then.Async.Tests.cs">
+        <Link>Result.Then.Async.Tests.cs</Link>
+      </Compile>
+      <Compile Include="..\Y.Results.Classes.Extensions.Tests\Result.Then.Tests.cs">
+        <Link>Result.Then.Tests.cs</Link>
+      </Compile>
+      <Compile Include="..\Y.Results.Classes.Extensions.Tests\Result.Validations.Tests.cs">
+        <Link>Result.Validations.Tests.cs</Link>
+      </Compile>
+      <Compile Include="..\Y.Results.Classes.Extensions.Tests\ResultExtensions.Tests.cs">
+        <Link>ResultExtensions.Tests.cs</Link>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Y.Results.Structs.Extensions\Y.Results.Structs.Extensions.csproj" />
+      <ProjectReference Include="..\Y.Results.Structs\Y.Results.Structs.csproj" />
+    </ItemGroup>
 
 </Project>

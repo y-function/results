@@ -4,7 +4,7 @@ public static partial class ResultExtensions
 {
     public static async Task<Result> Then(this Result result, Func<Task> action)
     {
-        ArgumentNullException.ThrowIfNull(result);
+        Result.AssertNotDefault(result);
 
         return result.IsSuccess 
             ? await Result.FromAction(action) 
@@ -13,7 +13,7 @@ public static partial class ResultExtensions
 
     public static async Task<Result> Then<TIn>(this Result<TIn> result, Func<TIn, Task> action)
     {
-        ArgumentNullException.ThrowIfNull(result);
+        Result.AssertNotDefault(result);
         ArgumentNullException.ThrowIfNull(action);
 
         return result.IsSuccess 
@@ -23,7 +23,7 @@ public static partial class ResultExtensions
 
     public static async Task<Result<TOut>> Then<TOut>(this Result result, Func<Task<Result<TOut>>> action)
     {
-        ArgumentNullException.ThrowIfNull(result);
+        Result.AssertNotDefault(result);
         ArgumentNullException.ThrowIfNull(action);
 
         if (!result.IsSuccess)
@@ -41,7 +41,7 @@ public static partial class ResultExtensions
 
     public static async Task<Result> Then(this Result result, Func<Task<Result>> action)
     {
-        ArgumentNullException.ThrowIfNull(result);
+        Result.AssertNotDefault(result);
         ArgumentNullException.ThrowIfNull(action);
 
         if (!result.IsSuccess)
@@ -59,7 +59,7 @@ public static partial class ResultExtensions
 
     public static async Task<Result> Then<TIn>(this Result<TIn> result, Func<TIn, Task<Result>> action)
     {
-        ArgumentNullException.ThrowIfNull(result);
+        Result.AssertNotDefault(result);
         ArgumentNullException.ThrowIfNull(action);
 
         if (!result.IsSuccess)
@@ -77,7 +77,7 @@ public static partial class ResultExtensions
 
     public static async Task<Result<TOut>> Then<TIn, TOut>(this Result<TIn> result, Func<TIn, Task<TOut>> action)
     {
-        ArgumentNullException.ThrowIfNull(result);
+        Result.AssertNotDefault(result);
         ArgumentNullException.ThrowIfNull(action);
 
         return result.IsSuccess
@@ -87,7 +87,7 @@ public static partial class ResultExtensions
 
     public static async Task<Result<TOut>> Then<TIn, TOut>(this Result<TIn> result, Func<TIn, Task<Result<TOut>>> action)
     {
-        ArgumentNullException.ThrowIfNull(result);
+        Result.AssertNotDefault(result);
         ArgumentNullException.ThrowIfNull(action);
 
         if (!result.IsSuccess)

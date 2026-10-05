@@ -8,7 +8,7 @@ public partial class ResultExtensionsTests
     [Test]
     public void TestOnFailureNullResult()
     {
-        Result result = null!;
+        Result result = default!;
         Assert.Throws<ArgumentNullException>(() => result.OnFailure(_ => {}));
     }
 
@@ -25,7 +25,11 @@ public partial class ResultExtensionsTests
         var actionMock = new Mock<Action<Exception>>();
         var input = Result.Failure(ExpectedException);
         var output = input.OnFailure(actionMock.Object);
+#if CLASSES
         Assert.That(output, Is.SameAs(input));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(input));
+#endif
         actionMock.Verify(a => a.Invoke(ExpectedException), Times.Once);
     }
 
@@ -34,7 +38,11 @@ public partial class ResultExtensionsTests
     {
         var input = Result.Failure(ExpectedException);
         var output = input.OnFailure(_ => throw new InvalidOperationException());
+#if CLASSES
         Assert.That(output, Is.SameAs(input));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(input));
+#endif
     }
 
     [Test]
@@ -42,13 +50,17 @@ public partial class ResultExtensionsTests
     {
         var input = Result.Success();
         var output = input.OnFailure(_ => Assert.Fail());
+#if CLASSES
         Assert.That(output, Is.SameAs(input));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(input));
+#endif
     }
 
     [Test]
     public void TestOnFailureTypedNullResult()
     {
-        Result<object> result = null!;
+        Result<object> result = default!;
         Assert.Throws<ArgumentNullException>(() => result.OnFailure(_ => { }));
     }
 
@@ -65,7 +77,11 @@ public partial class ResultExtensionsTests
         var actionMock = new Mock<Action<Exception>>();
         var input = Result.Failure<object>(ExpectedException);
         var output = input.OnFailure(actionMock.Object);
+#if CLASSES
         Assert.That(output, Is.SameAs(input));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(input));
+#endif
         actionMock.Verify(a => a.Invoke(ExpectedException), Times.Once);
     }
 
@@ -74,7 +90,11 @@ public partial class ResultExtensionsTests
     {
         var input = Result.Failure<object>(ExpectedException);
         var output = input.OnFailure(_ => throw new InvalidOperationException());
+#if CLASSES
         Assert.That(output, Is.SameAs(input));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(input));
+#endif
     }
 
     [Test]
@@ -82,6 +102,10 @@ public partial class ResultExtensionsTests
     {
         var input = Result.Success(1);
         var output = input.OnFailure(_ => Assert.Fail());
+#if CLASSES
         Assert.That(output, Is.SameAs(input));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(input));
+#endif
     }
 }
