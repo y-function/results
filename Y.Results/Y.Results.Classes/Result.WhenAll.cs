@@ -24,19 +24,30 @@ public readonly partial record struct Result
         return Success<IReadOnlyList<T>>(values);
     }
     
-    public static Result<Tuple<T1, T2>> WhenAll<T1, T2>(Result<T1> r1, Result<T2> r2) =>
-        r1.IsSuccess
+    public static Result<Tuple<T1, T2>> WhenAll<T1, T2>(Result<T1> r1, Result<T2> r2)
+    {
+        AssertNotDefault(r1);
+        AssertNotDefault(r2);
+
+        return r1.IsSuccess
             ? r2.IsSuccess
                 ? Success(new Tuple<T1, T2>(r1.Value!, r2.Value!))
                 : Failure<Tuple<T1, T2>>(r2.Exception!)
             : Failure<Tuple<T1, T2>>(r1.Exception!);
+    }
 
-    public static Result<Tuple<T1, T2, T3>> WhenAll<T1, T2, T3>(Result<T1> r1, Result<T2> r2, Result<T3> r3) =>
-        r1.IsSuccess
+    public static Result<Tuple<T1, T2, T3>> WhenAll<T1, T2, T3>(Result<T1> r1, Result<T2> r2, Result<T3> r3)
+    {
+        AssertNotDefault(r1);
+        AssertNotDefault(r2);
+        AssertNotDefault(r3);
+
+        return r1.IsSuccess
             ? r2.IsSuccess
                 ? r3.IsSuccess
                     ? Success(new Tuple<T1, T2, T3>(r1.Value!, r2.Value!, r3.Value!))
                     : Failure<Tuple<T1, T2, T3>>(r3.Exception!)
                 : Failure<Tuple<T1, T2, T3>>(r2.Exception!)
             : Failure<Tuple<T1, T2, T3>>(r1.Exception!);
+    }
 }

@@ -49,4 +49,13 @@ public readonly partial record struct Result
 #endif
             throw new ArgumentNullException(paramName);
     }
+
+#if STRUCTS
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal static void AssertNotDefault<T>(Result<T> result, [CallerArgumentExpression(nameof(result))] string? paramName = null)
+    {
+        if (result == default)
+            throw new ArgumentNullException(paramName);
+    }
+#endif
 }
