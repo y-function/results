@@ -3,7 +3,7 @@
 #if CLASSES
 public partial class Result
 #elif STRUCTS
-public readonly partial struct Result
+public readonly partial record struct Result
 #endif
 {
     /// <summary>
