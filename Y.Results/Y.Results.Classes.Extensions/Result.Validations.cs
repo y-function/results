@@ -4,14 +4,14 @@ public static partial class ResultExtensions
 {
     public static void ThrowIfFailed(this Result result)
     {
-        ArgumentNullException.ThrowIfNull(result);
+        Result.AssertNotDefault(result);
         if (!result.IsSuccess)
             throw result.Exception!;
     }
 
     public static T GetValueOrThrow<T>(this Result<T> result)
     {
-        ArgumentNullException.ThrowIfNull(result);
+        Result.AssertNotDefault(result);
 
         return !result.IsSuccess
             ? throw result.Exception!

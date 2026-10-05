@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>Y.Results.Extensions.Tests</RootNamespace>
+    <DefineConstants>$(DefineConstants);CLASSES</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

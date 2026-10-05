@@ -7,7 +7,7 @@ public partial class ResultExtensionsTests
     [Test]
     public void TestThenActionAsyncNullResult()
     {
-        Result result = null!;
+        Result result = default!;
         Assert.ThrowsAsync<ArgumentNullException>(() => result.Then(() => Task.CompletedTask));
     }
 
@@ -45,14 +45,18 @@ public partial class ResultExtensionsTests
         var actionMock = new Mock<Func<Task>>();
         var input = Result.Failure(ExpectedException);
         var output = await input.Then(actionMock.Object);
+#if CLASSES
         Assert.That(output, Is.SameAs(input));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(input));
+#endif
         actionMock.Verify(a => a.Invoke(), Times.Never);
     }
 
     [Test]
     public void TestThenValueActionAsyncNullResult()
     {
-        Result<string> result = null!;
+        Result<string> result = default!;
         Assert.ThrowsAsync<ArgumentNullException>(() => result.Then(_ => Task.CompletedTask));
     }
 
@@ -91,14 +95,15 @@ public partial class ResultExtensionsTests
         var actionMock = new Mock<Func<string, Task>>();
         var input = Result.Failure<string>(ExpectedException);
         var output = await input.Then(actionMock.Object);
-        Assert.That(output, Is.SameAs(input));
+        Assert.That(output.IsSuccess, Is.False);
+        Assert.That(output.Exception, Is.SameAs(ExpectedException));
         actionMock.Verify(a => a.Invoke(It.IsAny<string>()), Times.Never);
     }
 
     [Test]
     public void TestThenResultFuncGenericAsyncNullResult()
     {
-        Result result = null!;
+        Result result = default!;
         Assert.ThrowsAsync<ArgumentNullException>(() => result.Then(() => Task.FromResult(Result.Success(1))));
     }
 
@@ -145,7 +150,7 @@ public partial class ResultExtensionsTests
     [Test]
     public void TestThenResultFuncAsyncNullResult()
     {
-        Result result = null!;
+        Result result = default!;
         Assert.ThrowsAsync<ArgumentNullException>(() => result.Then(() => Task.FromResult(Result.Success())));
     }
 
@@ -164,7 +169,11 @@ public partial class ResultExtensionsTests
         actionMock.Setup(a => a.Invoke()).ReturnsAsync(outputResult);
         var input = Result.Success();
         var output = await input.Then(actionMock.Object);
+#if CLASSES
         Assert.That(output, Is.SameAs(outputResult));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(outputResult));
+#endif
         actionMock.Verify(a => a.Invoke(), Times.Once);
     }
 
@@ -183,14 +192,18 @@ public partial class ResultExtensionsTests
         var actionMock = new Mock<Func<Task<Result>>>();
         var input = Result.Failure(ExpectedException);
         var output = await input.Then(actionMock.Object);
+#if CLASSES
         Assert.That(output, Is.SameAs(input));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(input));
+#endif
         actionMock.Verify(a => a.Invoke(), Times.Never);
     }
 
     [Test]
     public void TestThenValueResultFuncAsyncNullResult()
     {
-        Result<string> result = null!;
+        Result<string> result = default!;
         Assert.ThrowsAsync<ArgumentNullException>(() => result.Then(_ => Task.FromResult(Result.Success())));
     }
 
@@ -209,7 +222,11 @@ public partial class ResultExtensionsTests
         mapperMock.Setup(m => m.Invoke("abc")).ReturnsAsync(outputResult);
         var input = Result.Success("abc");
         var output = await input.Then(mapperMock.Object);
+#if CLASSES
         Assert.That(output, Is.SameAs(outputResult));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(outputResult));
+#endif
         mapperMock.Verify(m => m.Invoke("abc"), Times.Once);
     }
 
@@ -229,14 +246,15 @@ public partial class ResultExtensionsTests
         var mapperMock = new Mock<Func<string?, Task<Result>>>();
         var input = Result.Failure<string>(ExpectedException);
         var output = await input.Then(mapperMock.Object);
-        Assert.That(output, Is.SameAs(input));
+        Assert.That(output.IsSuccess, Is.False);
+        Assert.That(output.Exception, Is.SameAs(ExpectedException));
         mapperMock.Verify(m => m.Invoke(It.IsAny<string?>()), Times.Never);
     }
 
     [Test]
     public void TestThenValueMapperAsyncNullResult()
     {
-        Result<string> result = null!;
+        Result<string> result = default!;
         Assert.ThrowsAsync<ArgumentNullException>(() => result.Then(_ => Task.FromResult(1)));
     }
 
@@ -283,7 +301,7 @@ public partial class ResultExtensionsTests
     [Test]
     public void TestThenValueResultMapperAsyncNullResult()
     {
-        Result<string> result = null!;
+        Result<string> result = default!;
         Assert.ThrowsAsync<ArgumentNullException>(() => result.Then(_ => Task.FromResult(Result.Success(1))));
     }
 

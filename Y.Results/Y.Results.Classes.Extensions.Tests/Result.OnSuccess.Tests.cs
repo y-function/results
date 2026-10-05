@@ -5,7 +5,7 @@ public partial class ResultExtensionsTests
     [Test]
     public void TestOnSuccessNullResult()
     {
-        Result result = null!;
+        Result result = default!;
         Assert.Throws<ArgumentNullException>(() => result.OnSuccess(() => {}));
     }
 
@@ -21,7 +21,11 @@ public partial class ResultExtensionsTests
     {
         var input = Result.Success();
         var output = input.OnSuccess(() => {});
+#if CLASSES
         Assert.That(output, Is.SameAs(input));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(input));
+#endif
     }
 
     [Test]
@@ -29,7 +33,11 @@ public partial class ResultExtensionsTests
     {
         var input = Result.Success();
         var output = input.OnSuccess(() => throw new InvalidOperationException());
+#if CLASSES
         Assert.That(output, Is.SameAs(input));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(input));
+#endif
     }
 
     [Test]
@@ -37,13 +45,17 @@ public partial class ResultExtensionsTests
     {
         var input = Result.Failure(new Exception());
         var output = input.OnSuccess(Assert.Fail);
+#if CLASSES
         Assert.That(output, Is.SameAs(input));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(input));
+#endif
     }
 
     [Test]
     public void TestOnSuccessTypedNullResult()
     {
-        Result<object> result = null!;
+        Result<object> result = default!;
         Assert.Throws<ArgumentNullException>(() => result.OnSuccess(_ => { }));
     }
 
@@ -59,7 +71,11 @@ public partial class ResultExtensionsTests
     {
         var input = Result.Success(1);
         var output = input.OnSuccess(_ => { });
+#if CLASSES
         Assert.That(output, Is.SameAs(input));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(input));
+#endif
     }
 
     [Test]
@@ -67,7 +83,11 @@ public partial class ResultExtensionsTests
     {
         var input = Result.Success(1);
         var output = input.OnSuccess(_ => throw new InvalidOperationException());
+#if CLASSES
         Assert.That(output, Is.SameAs(input));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(input));
+#endif
     }
 
     [Test]
@@ -75,6 +95,10 @@ public partial class ResultExtensionsTests
     {
         var input = Result.Failure<int>(new Exception());
         var output = input.OnSuccess(_ => Assert.Fail());
+#if CLASSES
         Assert.That(output, Is.SameAs(input));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(input));
+#endif
     }
 }

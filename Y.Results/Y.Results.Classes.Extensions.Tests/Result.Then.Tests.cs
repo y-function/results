@@ -7,7 +7,7 @@ public partial class ResultExtensionsTests
     [Test]
     public void TestThenResultNullResult()
     {
-        Result result = null!;
+        Result result = default!;
         Result next = Result.Success();
         Assert.Throws<ArgumentNullException>(() => result.Then(next));
     }
@@ -16,7 +16,7 @@ public partial class ResultExtensionsTests
     public void TestThenResultNullNext()
     {
         var input = Result.Success();
-        Assert.Throws<ArgumentNullException>(() => input.Then((Result)null!));
+        Assert.Throws<ArgumentNullException>(() => input.Then((Result)default!));
     }
 
     [Test]
@@ -25,7 +25,11 @@ public partial class ResultExtensionsTests
         var input = Result.Failure(ExpectedException);
         var next = Result.Success();
         var output = input.Then(next);
+#if CLASSES
         Assert.That(output, Is.SameAs(input));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(input));
+#endif
     }
 
     [Test]
@@ -34,13 +38,17 @@ public partial class ResultExtensionsTests
         var input = Result.Success();
         var next = Result.Success();
         var output = input.Then(next);
+#if CLASSES
         Assert.That(output, Is.SameAs(next));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(next));
+#endif
     }
 
     [Test]
     public void TestThenResultVoidToTypedNullResult()
     {
-        Result result = null!;
+        Result result = default!;
         var next = Result.Success(1);
         Assert.Throws<ArgumentNullException>(() => result.Then(next));
     }
@@ -49,7 +57,7 @@ public partial class ResultExtensionsTests
     public void TestThenResultVoidToTypedNullNext()
     {
         var input = Result.Success();
-        Assert.Throws<ArgumentNullException>(() => input.Then((Result<int>)null!));
+        Assert.Throws<ArgumentNullException>(() => input.Then((Result<int>)default!));
     }
 
     [Test]
@@ -69,13 +77,17 @@ public partial class ResultExtensionsTests
         var input = Result.Success();
         var next = Result.Success(2);
         var output = input.Then(next);
+#if CLASSES
         Assert.That(output, Is.SameAs(next));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(next));
+#endif
     }
     
     [Test]
     public void TestThenActionNullResult()
     {
-        Result result = null!;
+        Result result = default!;
         Assert.Throws<ArgumentNullException>(() => result.Then(() => { }));
     }
 
@@ -93,7 +105,9 @@ public partial class ResultExtensionsTests
         var input = Result.Success();
         var output = input.Then(actionMock.Object);
         Assert.That(output.IsSuccess, Is.True);
+#if CLASSES
         Assert.That(output, Is.Not.SameAs(input));
+#endif
         actionMock.Verify(a => a.Invoke(), Times.Once);
     }
 
@@ -112,14 +126,18 @@ public partial class ResultExtensionsTests
         var actionMock = new Mock<Action>();
         var input = Result.Failure(ExpectedException);
         var output = input.Then(actionMock.Object);
+#if CLASSES
         Assert.That(output, Is.SameAs(input));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(input));
+#endif
         actionMock.Verify(a => a.Invoke(), Times.Never);
     }
     
     [Test]
     public void TestThenResultTypedNullResult()
     {
-        var result = (Result<int>)null!;
+        var result = (Result<int>)default!;
         var next = Result.Success(1);
         Assert.Throws<ArgumentNullException>(() => result.Then(next));
     }
@@ -128,7 +146,7 @@ public partial class ResultExtensionsTests
     public void TestThenResultTypedNullNext()
     {
         var input = Result.Success(1);
-        Assert.Throws<ArgumentNullException>(() => input.Then((Result<int>)null!));
+        Assert.Throws<ArgumentNullException>(() => input.Then((Result<int>)default!));
     }
 
     [Test]
@@ -137,7 +155,11 @@ public partial class ResultExtensionsTests
         var input = Result.Failure<int>(ExpectedException);
         var next = Result.Success(1);
         var output = input.Then(next);
+#if CLASSES
         Assert.That(output, Is.SameAs(input));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(input));
+#endif
     }
 
     [Test]
@@ -146,14 +168,18 @@ public partial class ResultExtensionsTests
         var input = Result.Success(1);
         var next = Result.Success(2);
         var output = input.Then(next);
+#if CLASSES
         Assert.That(output, Is.SameAs(next));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(next));
+#endif
     }
     
 
     [Test]
     public void TestThenFuncNullResult()
     {
-        Result result = null!;
+        Result result = default!;
         Assert.Throws<ArgumentNullException>(() => result.Then(() => 1));
     }
 
@@ -199,7 +225,7 @@ public partial class ResultExtensionsTests
     [Test]
     public void TestThenResultFuncNullResult()
     {
-        Result result = null!;
+        Result result = default!;
         Assert.Throws<ArgumentNullException>(() => result.Then(Result.Success));
     }
 
@@ -218,7 +244,11 @@ public partial class ResultExtensionsTests
         funcMock.Setup(f => f.Invoke()).Returns(outputResult);
         var input = Result.Success();
         var output = input.Then(funcMock.Object);
+#if CLASSES
         Assert.That(output, Is.SameAs(outputResult));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(outputResult));
+#endif
         funcMock.Verify(f => f.Invoke(), Times.Once);
     }
 
@@ -239,14 +269,18 @@ public partial class ResultExtensionsTests
         var funcMock = new Mock<Func<Result>>();
         var input = Result.Failure(ExpectedException);
         var output = input.Then(funcMock.Object);
+#if CLASSES
         Assert.That(output, Is.SameAs(input));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(input));
+#endif
         funcMock.Verify(f => f.Invoke(), Times.Never);
     }
 
     [Test]
     public void TestThenResultFuncGenericNullResult()
     {
-        Result result = null!;
+        Result result = default!;
         Assert.Throws<ArgumentNullException>(() => result.Then(() => Result.Success(1)));
     }
 
@@ -275,7 +309,11 @@ public partial class ResultExtensionsTests
         var failureResult = Result.Failure<int>(ExpectedException);
         var input = Result.Success();
         var output = input.Then(() => failureResult);
+#if CLASSES
         Assert.That(output, Is.SameAs(failureResult));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(failureResult));
+#endif
     }
 
     [Test]
@@ -301,7 +339,7 @@ public partial class ResultExtensionsTests
     [Test]
     public void TestThenValueMapperNullResult()
     {
-        Result<string> result = null!;
+        Result<string> result = default!;
         Assert.Throws<ArgumentNullException>(() => result.Then(x => x.Length));
     }
 
@@ -347,7 +385,7 @@ public partial class ResultExtensionsTests
     [Test]
     public void TestThenValueResultMapperNullResult()
     {
-        Result<string> result = null!;
+        Result<string> result = default!;
         Assert.Throws<ArgumentNullException>(() => result.Then(x => Result.Success(x.Length)));
     }
 
@@ -376,7 +414,11 @@ public partial class ResultExtensionsTests
         var failureResult = Result.Failure<int>(ExpectedException);
         var input = Result.Success("abc");
         var output = input.Then(_ => failureResult);
+#if CLASSES
         Assert.That(output, Is.SameAs(failureResult));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(failureResult));
+#endif
     }
 
     [Test]
@@ -402,7 +444,7 @@ public partial class ResultExtensionsTests
     [Test]
     public void TestThenValueResultFuncNullResult()
     {
-        Result<string> result = null!;
+        Result<string> result = default!;
         Assert.Throws<ArgumentNullException>(() => result.Then(_ => Result.Success()));
     }
 
@@ -421,7 +463,11 @@ public partial class ResultExtensionsTests
         mapperMock.Setup(m => m.Invoke("abc")).Returns(outputResult);
         var input = Result.Success("abc");
         var output = input.Then(mapperMock.Object);
+#if CLASSES
         Assert.That(output, Is.SameAs(outputResult));
+#elif STRUCTS
+        Assert.That(output, Is.EqualTo(outputResult));
+#endif
         mapperMock.Verify(m => m.Invoke("abc"), Times.Once);
     }
 
@@ -440,7 +486,9 @@ public partial class ResultExtensionsTests
         var mapperMock = new Mock<Func<string?, Result>>();
         var input = Result.Failure<string>(ExpectedException);
         var output = input.Then(mapperMock.Object);
-        Assert.That(output, Is.SameAs(input));
+        Assert.That(output, Is.Not.Default);
+        Assert.That(output.IsSuccess, Is.False);
+        Assert.That(output.Exception, Is.SameAs(ExpectedException));
         mapperMock.Verify(m => m.Invoke(It.IsAny<string?>()), Times.Never);
     }
 }

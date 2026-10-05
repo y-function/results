@@ -5,6 +5,12 @@
         <DefineConstants>$(DefineConstants);STRUCTS</DefineConstants>
     </PropertyGroup>
 
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>$(AssemblyName).Extensions</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
     <ItemGroup>
       <Compile Include="..\Y.Results.Classes\Result.cs">
         <Link>Result.cs</Link>
