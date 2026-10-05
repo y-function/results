@@ -3,7 +3,7 @@
 #if CLASSES
 public class Result<T> : Result
 #elif STRUCTS
-public readonly struct Result<T>
+public readonly record struct Result<T>
 #endif
 {
     public T Value { get; }

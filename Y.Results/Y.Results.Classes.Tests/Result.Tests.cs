@@ -24,6 +24,12 @@ public partial class ResultTests
     }
 
     [Test]
+    public void TestTryGetFailureEmptyContainsNull()
+    {
+        Assert.Throws<ArgumentNullException>(() => Result.TryGetFailure(out _, Result.Success(), default!));
+    }
+
+    [Test]
     public void TestTryGetFailureEmptyOneFailure()
     {
         var expectedResult = Result.Failure(new Exception("expected"));
@@ -79,6 +85,12 @@ public partial class ResultTests
     }
 
     [Test]
+    public void TestTryGetFailureTypedEmptyContainsNull()
+    {
+        Assert.Throws<ArgumentNullException>(() => Result.TryGetFailure(out _, Result.Success(1), default!));
+    }
+
+    [Test]
     public void TestTryGetFailureTypedMultipleFailures()
     {
         var expectedResult = Result.Failure<int>(new Exception("expected"));
@@ -127,7 +139,7 @@ public partial class ResultTests
     public void TestTryGetFailureMixedMultipleFailures()
     {
         var expectedResult = Result.Failure<int>(new Exception("expected"));
-        var success = Result.TryGetFailure<int>(out var result, Result.Success(2), expectedResult, Result.Failure<int>(new Exception()));
+        var success = Result.TryGetFailure(out var result, Result.Success(2), expectedResult, Result.Failure<int>(new Exception()));
         Assert.That(success, Is.True);
 #if CLASSES
         Assert.That(result, Is.SameAs(expectedResult));

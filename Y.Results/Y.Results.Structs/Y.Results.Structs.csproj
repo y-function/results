@@ -15,6 +15,12 @@
       <Compile Include="..\Y.Results.Classes\Result.Generic.cs">
         <Link>Result.Generic.cs</Link>
       </Compile>
+      <Compile Include="..\Y.Results.Classes\Result.Methods.cs">
+        <Link>Result.Methods.cs</Link>
+      </Compile>
+      <Compile Include="..\Y.Results.Classes\Result.WhenAll.cs">
+        <Link>Result.WhenAll.cs</Link>
+      </Compile>
     </ItemGroup>
 
 </Project>
