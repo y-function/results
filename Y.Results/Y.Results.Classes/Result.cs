@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace Y.Results;
+﻿namespace Y.Results;
 
 #if CLASSES
 public partial class Result

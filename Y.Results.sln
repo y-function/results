@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Y.Results.Structs.Extension
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Structs", "Structs", "{AFCF9B4D-F9AD-44EF-BF7F-7C998C39D1C4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmark", "Y.Results\Benchmark\Benchmark.csproj", "{EF45A2FA-AFAB-4FC0-A132-93668CE95F1B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,10 @@ Global
 		{570C9313-5BEE-4041-B9B5-8E7137081B91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{570C9313-5BEE-4041-B9B5-8E7137081B91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{570C9313-5BEE-4041-B9B5-8E7137081B91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF45A2FA-AFAB-4FC0-A132-93668CE95F1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF45A2FA-AFAB-4FC0-A132-93668CE95F1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF45A2FA-AFAB-4FC0-A132-93668CE95F1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF45A2FA-AFAB-4FC0-A132-93668CE95F1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5AA4915F-7F40-4DBC-B92E-8E2CE6621C52} = {A18777C5-EC06-441A-9EDF-CA5AC09BB4D1}

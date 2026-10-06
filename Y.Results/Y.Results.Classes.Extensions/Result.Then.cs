@@ -83,10 +83,18 @@ public static partial class ResultExtensions
     {
         Result.AssertNotDefault(result);
         ArgumentNullException.ThrowIfNull(action);
-
-        return result.IsSuccess 
-            ? Result.Wrap(() => action(result.Value)) 
-            : result.CastFailure<TIn, TOut>();
+        
+        if (!result.IsSuccess)
+            return result.CastFailure<TIn, TOut>();
+        
+        try
+        {
+            return Result.Success(action(result.Value));
+        }
+        catch (Exception e)
+        {
+            return Result.Failure<TOut>(e);
+        }
     }
 
     public static Result<TOut> Then<TIn, TOut>(this Result<TIn> result, Func<TIn, Result<TOut>> action)
