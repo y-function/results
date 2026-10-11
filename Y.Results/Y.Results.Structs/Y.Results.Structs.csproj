@@ -9,9 +9,15 @@
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
       <_Parameter1>$(AssemblyName).Extensions</_Parameter1>
     </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>$(AssemblyName).Web</_Parameter1>
+    </AssemblyAttribute>
   </ItemGroup>
 
     <ItemGroup>
+      <Compile Include="..\Y.Results.Classes\IResult.cs">
+        <Link>IResult.cs</Link>
+      </Compile>
       <Compile Include="..\Y.Results.Classes\Result.cs">
         <Link>Result.cs</Link>
       </Compile>
