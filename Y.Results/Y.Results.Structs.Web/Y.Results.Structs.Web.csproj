@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Y.Results.Web</RootNamespace>
+    <DefineConstants>$(DefineConstants);STRUCTS</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <ProjectReference Include="..\Y.Results.Structs\Y.Results.Structs.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Y.Results.Classes.Web\ResultActionFilter.cs">
+      <Link>ResultActionFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\Y.Results.Classes.Web\ReturnsNoContentOnSuccess.cs">
+      <Link>ReturnsNoContentOnSuccess.cs</Link>
+    </Compile>
+  </ItemGroup>
+
+</Project>

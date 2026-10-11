@@ -147,4 +147,21 @@ public partial class ResultTests
         Assert.That(result, Is.EqualTo(expectedResult));
 #endif
     }
+
+    [Test]
+    public void TestIResultValueForNonGenericResult()
+    {
+        var result = Result.Success();
+
+        Assert.That(((IResult)result).Value, Is.Null);
+    }
+
+    [Test]
+    public void TestIResultValueForGenericResult()
+    {
+        var expectedValue = new object();
+        var result = Result.Success(expectedValue);
+
+        Assert.That(((IResult)result).Value, Is.SameAs(expectedValue));
+    }
 }

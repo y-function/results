@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Y.Results.Web.Tests</RootNamespace>
+    <DefineConstants>$(DefineConstants);STRUCTS</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <ProjectReference Include="..\Y.Results.Structs.Web\Y.Results.Structs.Web.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Y.Results.Classes.Web.Tests\ResultActionFilter.Tests.cs">
+      <Link>ResultActionFilter.Tests.cs</Link>
+    </Compile>
+  </ItemGroup>
+
+</Project>

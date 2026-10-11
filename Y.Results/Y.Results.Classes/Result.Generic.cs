@@ -1,12 +1,13 @@
 ﻿namespace Y.Results;
 
 #if CLASSES
-public class Result<T> : Result
+public class Result<T> : Result, IResult
 #elif STRUCTS
-public readonly record struct Result<T>
+public readonly record struct Result<T> : IResult
 #endif
 {
     public T Value { get; }
+    object? IResult.Value => Value;
 #if CLASSES
     protected internal Result(bool isSuccess, T value, Exception? exception = null) : base(isSuccess, exception) => Value = value;
 #elif STRUCTS
