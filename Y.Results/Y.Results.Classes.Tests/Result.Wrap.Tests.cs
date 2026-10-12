@@ -76,7 +76,7 @@ public partial class ResultTests
         object Func() => throw expectedException;
         var result = Result.Wrap(Func);
         Assert.That(result.IsSuccess, Is.False);
-        Assert.That(result.Value, Is.Default);
+        Assert.That(result.Value, Is.Null);
         Assert.That(result.Exception, Is.SameAs(expectedException));
     }
 
@@ -105,7 +105,7 @@ public partial class ResultTests
 
         var result = Result.Wrap(Func).GetAwaiter().GetResult();
         Assert.That(result.IsSuccess, Is.False);
-        Assert.That(result.Value, Is.Default);
+        Assert.That(result.Value, Is.Null);
         Assert.That(result.Exception, Is.SameAs(expectedException));
     }
 }

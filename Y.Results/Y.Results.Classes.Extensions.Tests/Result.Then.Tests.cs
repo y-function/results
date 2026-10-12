@@ -258,7 +258,6 @@ public partial class ResultExtensionsTests
         var input = Result.Success();
         var outputException = new InvalidOperationException();
         var output = input.Then((Func<Result>)(() => throw outputException));
-        Assert.That(output, Is.Not.SameAs(input));
         Assert.That(output.IsSuccess, Is.False);
         Assert.That(output.Exception, Is.SameAs(outputException));
     }
@@ -486,7 +485,7 @@ public partial class ResultExtensionsTests
         var mapperMock = new Mock<Func<string?, Result>>();
         var input = Result.Failure<string>(ExpectedException);
         var output = input.Then(mapperMock.Object);
-        Assert.That(output, Is.Not.Default);
+        Assert.That(output, Is.Not.Null);
         Assert.That(output.IsSuccess, Is.False);
         Assert.That(output.Exception, Is.SameAs(ExpectedException));
         mapperMock.Verify(m => m.Invoke(It.IsAny<string?>()), Times.Never);

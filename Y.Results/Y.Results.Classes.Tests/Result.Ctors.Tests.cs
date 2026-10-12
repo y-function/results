@@ -35,7 +35,7 @@ public partial class ResultTests
         var expectedException = new Exception();
         var result = Result.Failure<object>(expectedException);
         Assert.That(result.IsSuccess, Is.False);
-        Assert.That(result.Value, Is.Default);
+        Assert.That(result.Value, Is.Null);
         Assert.That(result.Exception, Is.SameAs(expectedException));
     }
 

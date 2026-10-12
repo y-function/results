@@ -7,11 +7,24 @@ namespace Y.Results;
 public partial class Result
 #elif STRUCTS
 public readonly partial record struct Result
+#else
+#error Either CLASSES or STRUCTS must be instantiated.
 #endif
 {
-    public static bool TryGetFailure(out Result failure, params ReadOnlySpan<Result> results)
+    public static bool TryGetFailure(
+        out Result failure,
+#if NETSTANDARD2_0
+        params Result[] results
+#else
+        params ReadOnlySpan<Result> results
+#endif
+        )
     {
+#if NETSTANDARD2_0
+        foreach (var result in results ?? [])
+#else
         foreach (ref readonly var result in results)
+#endif
         {
             AssertNotDefault(result);
             if (result.IsSuccess) continue;
@@ -24,9 +37,20 @@ public readonly partial record struct Result
         return false;
     }
 
-    public static bool TryGetFailure<T>(out Result<T> failure, params ReadOnlySpan<Result<T>> results)
+    public static bool TryGetFailure<T>(
+        out Result<T> failure,
+#if NETSTANDARD2_0
+        params Result<T>[] results
+#else
+        params ReadOnlySpan<Result<T>> results
+#endif
+        )
     {
+#if NETSTANDARD2_0
+        foreach (var result in results ?? [])
+#else
         foreach (ref readonly var result in results)
+#endif
         {
             AssertNotDefault(result);
             if (result.IsSuccess) continue;

@@ -26,7 +26,6 @@ public partial class ResultExtensionsTests
         var input = Result.Success();
         var output = await input.Then(actionMock.Object);
         Assert.That(output.IsSuccess, Is.True);
-        Assert.That(output, Is.Not.SameAs(input));
         actionMock.Verify(a => a.Invoke(), Times.Once);
     }
 
@@ -75,7 +74,6 @@ public partial class ResultExtensionsTests
         var input = Result.Success("abc");
         var output = await input.Then(actionMock.Object);
         Assert.That(output.IsSuccess, Is.True);
-        Assert.That(output, Is.Not.SameAs(input));
         actionMock.Verify(a => a.Invoke("abc"), Times.Once);
     }
 

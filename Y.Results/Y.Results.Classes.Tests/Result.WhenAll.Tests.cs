@@ -1,5 +1,3 @@
-using NUnit.Framework.Legacy;
-
 namespace Y.Results.Tests;
 
 public partial class ResultTests
@@ -78,7 +76,7 @@ public partial class ResultTests
         Assert.That(output, Is.Not.Null);
         Assert.That(output.IsSuccess, Is.True);
         Assert.That(output.Value, Is.Not.Empty);
-        CollectionAssert.AreEquivalent(output.Value, new[] { expectedValue });
+        Assert.That(output.Value, Is.EquivalentTo(new[] { expectedValue }));
     }
 
     [Test]
