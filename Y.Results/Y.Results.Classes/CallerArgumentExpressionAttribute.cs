@@ -2,6 +2,7 @@
 namespace System.Runtime.CompilerServices
 {
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = false)]
+    [Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     internal sealed class CallerArgumentExpressionAttribute : Attribute
     {
         public CallerArgumentExpressionAttribute(string parameterName)

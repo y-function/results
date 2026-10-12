@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace Y.Results;
 
+[System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 public class ArgumentNullException : System.ArgumentNullException
 {
     public ArgumentNullException() { }
