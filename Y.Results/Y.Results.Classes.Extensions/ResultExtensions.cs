@@ -4,12 +4,13 @@ namespace Y.Results;
 
 public static partial class ResultExtensions
 {
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static Result<TOut> CastFailure<TIn, TOut>(this Result<TIn> result) =>
-        typeof(TIn) == typeof(TOut)
 #if CLASSES
-            ? (result as Result<TOut>)! 
-#elif STRUCTS
-            ? Unsafe.As<Result<TIn>, Result<TOut>>(ref result)
-#endif
+        typeof(TIn) == typeof(TOut)
+            ? (result as Result<TOut>)!
             : Result.Failure<TOut>(result.Exception!);
+#elif STRUCTS
+        Result.Failure<TOut>(result.Exception!);
+#endif
 }

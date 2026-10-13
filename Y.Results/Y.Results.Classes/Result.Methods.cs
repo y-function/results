@@ -2,7 +2,6 @@
 
 namespace Y.Results;
 
-
 #if CLASSES
 public partial class Result
 #elif STRUCTS
@@ -45,7 +44,7 @@ public readonly partial record struct Result
 #if CLASSES
         if (result == null)
 #elif STRUCTS
-        if (result == default)
+        if (!result.IsSuccess && result.Exception == null)
 #endif
             throw new ArgumentNullException(paramName);
     }
@@ -54,7 +53,7 @@ public readonly partial record struct Result
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static void AssertNotDefault<T>(Result<T> result, [CallerArgumentExpression(nameof(result))] string? paramName = null)
     {
-        if (result == default)
+        if (!result.IsSuccess && result.Exception == null)
             throw new ArgumentNullException(paramName);
     }
 #endif

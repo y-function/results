@@ -1,4 +1,6 @@
-﻿namespace Y.Results;
+using System.Runtime.CompilerServices;
+
+namespace Y.Results;
 
 public static partial class ResultExtensions
 {
@@ -6,7 +8,7 @@ public static partial class ResultExtensions
     {
         Result.AssertNotDefault(result);
         Result.AssertNotDefault(next);
-        
+
         return result.IsSuccess ? next : result;
     }
 
@@ -14,8 +16,8 @@ public static partial class ResultExtensions
     {
         Result.AssertNotDefault(result);
 
-        return result.IsSuccess 
-            ? Result.Wrap(action) 
+        return result.IsSuccess
+            ? Result.Wrap(action)
             : result;
     }
 
@@ -23,8 +25,8 @@ public static partial class ResultExtensions
     {
         Result.AssertNotDefault(result);
 
-        return result.IsSuccess 
-            ? Result.Wrap(action) 
+        return result.IsSuccess
+            ? Result.Wrap(action)
             : Result.Failure<TOut>(result.Exception!);
     }
 
@@ -60,7 +62,7 @@ public static partial class ResultExtensions
 
         return result.IsSuccess ? next : result.CastFailure<TIn, TOut>();
     }
-    
+
     public static Result<TOut> Then<TOut>(this Result result, Func<Result<TOut>> action)
     {
         Result.AssertNotDefault(result);
@@ -79,14 +81,38 @@ public static partial class ResultExtensions
         }
     }
 
+#if STRUCTS
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     public static Result<TOut> Then<TIn, TOut>(this Result<TIn> result, Func<TIn, TOut> action)
     {
         Result.AssertNotDefault(result);
         ArgumentNullException.ThrowIfNull(action);
 
-        return result.IsSuccess 
-            ? Result.Wrap(() => action(result.Value)) 
-            : result.CastFailure<TIn, TOut>();
+        if (!result.IsSuccess)
+            return result.CastFailure<TIn, TOut>();
+
+        if (TryInvoke(action, result.Value, out var value, out Exception? error))
+            return Result.Success(value);
+
+        return Result.Failure<TOut>(error!);
+    }
+
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static bool TryInvoke<TIn, TOut>(Func<TIn, TOut> action, TIn arg, out TOut value, out Exception? error)
+    {
+        try
+        {
+            value = action(arg);
+            error = null;
+            return true;
+        }
+        catch (Exception e)
+        {
+            value = default!;
+            error = e;
+            return false;
+        }
     }
 
     public static Result<TOut> Then<TIn, TOut>(this Result<TIn> result, Func<TIn, Result<TOut>> action)
