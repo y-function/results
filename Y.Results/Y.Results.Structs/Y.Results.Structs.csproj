@@ -36,6 +36,12 @@
       <Compile Include="..\Y.Results.Classes\Result.WhenAll.cs">
         <Link>Result.WhenAll.cs</Link>
       </Compile>
+      <Compile Include="..\Y.Results.Classes\CallerArgumentExpressionAttribute.cs">
+        <Link>CallerArgumentExpressionAttribute.cs</Link>
+      </Compile>
+      <Compile Include="..\Y.Results.Classes\ArgumentNullException.cs">
+        <Link>ArgumentNullException.cs</Link>
+      </Compile>
     </ItemGroup>
 
 </Project>

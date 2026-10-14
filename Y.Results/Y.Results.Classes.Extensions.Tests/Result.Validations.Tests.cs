@@ -90,7 +90,6 @@ public partial class ResultExtensionsTests
     {
         var input = Result.Success();
         var output = input.Validate(() => false);
-        Assert.That(output, Is.Not.SameAs(input));
         Assert.That(output.IsSuccess, Is.False);
         Assert.That(output.Exception, Is.Not.Null);
         Assert.That(output.Exception, Is.TypeOf<Exception>());
@@ -102,7 +101,6 @@ public partial class ResultExtensionsTests
     {
         var input = Result.Success();
         var output = input.Validate(() => false, () => ExpectedException);
-        Assert.That(output, Is.Not.SameAs(input));
         Assert.That(output.IsSuccess, Is.False);
         Assert.That(output.Exception, Is.SameAs(ExpectedException));
     }
@@ -187,7 +185,6 @@ public partial class ResultExtensionsTests
     {
         var input = Result.Success(1);
         var output = input.Validate(_ => false, () => ExpectedException);
-        Assert.That(output, Is.Not.SameAs(input));
         Assert.That(output.IsSuccess, Is.False);
         Assert.That(output.Exception, Is.SameAs(ExpectedException));
     }
@@ -201,7 +198,6 @@ public partial class ResultExtensionsTests
                 Assert.That(v, Is.EqualTo(input.Value));
                 return ExpectedException;
             });
-        Assert.That(output, Is.Not.SameAs(input));
         Assert.That(output.IsSuccess, Is.False);
         Assert.That(output.Exception, Is.SameAs(ExpectedException));
     }

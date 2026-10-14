@@ -6,13 +6,29 @@ public partial class Result
 public readonly partial record struct Result
 #endif
 {
-    public static Result WhenAll(params ReadOnlySpan<Result> results) => 
-        TryGetFailure(out var result,  results) ? result : Success();
+    public static Result WhenAll(
+#if NETSTANDARD2_0
+        params Result[] results
+#else
+        params ReadOnlySpan<Result> results
+#endif
+    ) => 
+        TryGetFailure(out var result, results) ? result : Success();
 
-    public static Result<IReadOnlyList<T>> WhenAll<T>(params ReadOnlySpan<Result<T>> results)
+    public static Result<IReadOnlyList<T>> WhenAll<T>(
+#if NETSTANDARD2_0
+        params Result<T>[] results
+#else
+        params ReadOnlySpan<Result<T>> results
+#endif
+    )
     {
         var values = new List<T>();
+#if NETSTANDARD2_0
+        foreach (var result in results ?? [])
+#else
         foreach (ref readonly var result in results)
+#endif
         {
             AssertNotDefault(result);
             if (!result.IsSuccess) 

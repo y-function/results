@@ -86,7 +86,7 @@ public partial class ResultTests
         Func<Exception>? onFailure = null;
         var result = Result.FromCondition(new object(), _ => false, onFailure);
         Assert.That(result.IsSuccess, Is.False);
-        Assert.That(result.Value, Is.Default);
+        Assert.That(result.Value, Is.Null);
         Assert.That(result.Exception, Is.Not.Null);
         Assert.That(result.Exception, Is.TypeOf<Exception>());
         Assert.That(result.Exception!.Message, Is.EqualTo("Condition validation has failed."));
@@ -98,7 +98,7 @@ public partial class ResultTests
         var expectedException = new Exception();
         var result = Result.FromCondition(new object(), _ => false, () => expectedException);
         Assert.That(result.IsSuccess, Is.False);
-        Assert.That(result.Value, Is.Default);
+        Assert.That(result.Value, Is.Null);
         Assert.That(result.Exception, Is.SameAs(expectedException));
     }
 
@@ -108,7 +108,7 @@ public partial class ResultTests
         var expectedException = new Exception();
         var result = Result.FromCondition(new object(), _ => throw expectedException, (Func<Exception>?)null);
         Assert.That(result.IsSuccess, Is.False);
-        Assert.That(result.Value, Is.Default);
+        Assert.That(result.Value, Is.Null);
         Assert.That(result.Exception, Is.SameAs(expectedException));
     }
 
@@ -118,7 +118,7 @@ public partial class ResultTests
         var expectedException = new Exception();
         var result = Result.FromCondition(new object(), _ => throw expectedException, () => ExpectedException);
         Assert.That(result.IsSuccess, Is.False);
-        Assert.That(result.Value, Is.Default);
+        Assert.That(result.Value, Is.Null);
         Assert.That(result.Exception, Is.SameAs(expectedException));
     }
 
@@ -128,7 +128,7 @@ public partial class ResultTests
         var expectedException = new Exception();
         var result = Result.FromCondition(new object(), _ => false, () => throw expectedException);
         Assert.That(result.IsSuccess, Is.False);
-        Assert.That(result.Value, Is.Default);
+        Assert.That(result.Value, Is.Null);
         Assert.That(result.Exception, Is.SameAs(expectedException));
     }
 
@@ -165,7 +165,7 @@ public partial class ResultTests
         Func<object, Exception>? onFailure = null;
         var result = Result.FromCondition(new object(), _ => false, onFailure);
         Assert.That(result.IsSuccess, Is.False);
-        Assert.That(result.Value, Is.Default);
+        Assert.That(result.Value, Is.Null);
         Assert.That(result.Exception, Is.Not.Null);
         Assert.That(result.Exception, Is.TypeOf<Exception>());
         Assert.That(result.Exception!.Message, Is.EqualTo("Condition validation has failed."));
@@ -182,7 +182,7 @@ public partial class ResultTests
             return expectedException;
         });
         Assert.That(result.IsSuccess, Is.False);
-        Assert.That(result.Value, Is.Default);
+        Assert.That(result.Value, Is.Null);
         Assert.That(result.Exception, Is.SameAs(expectedException));
     }
 
@@ -192,7 +192,7 @@ public partial class ResultTests
         var expectedException = new Exception();
         var result = Result.FromCondition(new object(), _ => throw expectedException, (Func<object, Exception>?)null);
         Assert.That(result.IsSuccess, Is.False);
-        Assert.That(result.Value, Is.Default);
+        Assert.That(result.Value, Is.Null);
         Assert.That(result.Exception, Is.SameAs(expectedException));
     }
 
@@ -202,7 +202,7 @@ public partial class ResultTests
         var expectedException = new Exception();
         var result = Result.FromCondition(new object(), _ => false, _ => throw expectedException);
         Assert.That(result.IsSuccess, Is.False);
-        Assert.That(result.Value, Is.Default);
+        Assert.That(result.Value, Is.Null);
         Assert.That(result.Exception, Is.SameAs(expectedException));
     }
 }

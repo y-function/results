@@ -12,7 +12,7 @@ public partial class ResultTests
     {
         var success = Result.TryGetFailure(out var result);
         Assert.That(success, Is.False);
-        Assert.That(result, Is.Default);
+        Assert.That(result, Is.EqualTo(default(Result)));
     }
 
     [Test]
@@ -20,7 +20,11 @@ public partial class ResultTests
     {
         var success = Result.TryGetFailure(out var result, Result.Success(), Result.Success());
         Assert.That(success, Is.False);
+#if CLASSES
         Assert.That(result, Is.Default);
+#elif STRUCTS
+        Assert.That(result, Is.EqualTo(default(Result)));
+#endif
     }
 
     [Test]
@@ -152,7 +156,6 @@ public partial class ResultTests
     public void TestIResultValueForNonGenericResult()
     {
         var result = Result.Success();
-
         Assert.That(((IResult)result).Value, Is.Null);
     }
 
@@ -161,7 +164,6 @@ public partial class ResultTests
     {
         var expectedValue = new object();
         var result = Result.Success(expectedValue);
-
         Assert.That(((IResult)result).Value, Is.SameAs(expectedValue));
     }
 }
